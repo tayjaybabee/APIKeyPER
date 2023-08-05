@@ -1,17 +1,31 @@
 # APIKeyPER
 
-APIKeyPER is a Python-based project developed by Inspyre Softworks. It provides a simple and efficient way to manage API keys associated with various services. The project is designed to store, retrieve, and manage API keys in a secure and organized manner.
+APIKeyPER is a Python-based project developed by Inspyre Softworks. It provides a simple and efficient way to manage API
+keys associated with various services. The project is designed to store, retrieve, and manage API keys in a secure and
+organized manner.
 
 ## Features
 
-- **Add API Keys:** You can add API keys associated with a specific service.
-- **Retrieve API Keys:** You can retrieve API keys associated with a specific service.
-- **Delete API Keys:** You can delete API keys associated with a specific service.
-- **List Services:** You can list all the services for which API keys are stored.
+### 1. API Key Management
+
+- **Add API Keys**: Add API keys associated with a specific service.
+- **Retrieve API Keys**: Retrieve API keys associated with a specific service.
+- **Delete API Keys**: Delete API keys associated with a specific service.
+- **List Services**: List all the services for which API keys are stored.
+
+### 2. Encryption and Security
+
+- **Encryption Key Management**: Manage encryption keys through file, system keyring, or SFTP server.
+- **Encryption Key Export**: Export the encryption key to a file, system keyring, or SFTP server.
+
+### 3. Decorators for API Key Requirements
+
+- **Function-level Decorator**: Ensure API keys are available for specific services.
+- **Class-level Decorator**: Ensure API keys are available for specific services when an instance is created.
 
 ## How to Use
 
-Here is a simple example of how to use APIKeyPER:
+### Example Usage of APIKeyPER Class:
 
 ```python
 from apikeyper import APIKeyPER
@@ -25,25 +39,18 @@ api_key_per.add_key('service_name', 'api_key')
 # Get an API key
 api_key = api_key_per.get_key('service_name')
 print(api_key)
-
-# Delete an API key
-api_key_per.delete_key('service_name')
-
-# List all services
-services = api_key_per.list_services()
-print(services)
 ```
 
-## Installation
+### Example Usage of Decorators:
 
-To install APIKeyPER, you can clone the repository and install it manually. More detailed instructions will be provided in the future.
+```python
+from apikeyper.utils.decorators import apikey_required, apikey_required_class
 
-## License
+@apikey_required(["service1", "service2"])
+def my_function():
+    pass
 
-APIKeyPER is licensed under the MIT License. You are free to use, modify, and distribute the software with some conditions. For more details, please refer to the license included in the project.
-
-## Contact
-
-For any inquiries, suggestions, or bug reports, please contact Inspyre Softworks through their [website](https://inspyre.tech).
-
-Please note that this project is still under development and might undergo significant changes.
+@apikey_required_class(["service1", "service2"])
+class MyClass:
+    pass
+```
