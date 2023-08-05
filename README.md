@@ -18,39 +18,45 @@ organized manner.
 - **Encryption Key Management**: Manage encryption keys through file, system keyring, or SFTP server.
 - **Encryption Key Export**: Export the encryption key to a file, system keyring, or SFTP server.
 
-### 3. Decorators for API Key Requirements
 
-- **Function-level Decorator**: Ensure API keys are available for specific services.
-- **Class-level Decorator**: Ensure API keys are available for specific services when an instance is created.
+## 3. Decorators for API Key Requirements
 
-## How to Use
+APIKeyPER provides decorators to ensure that the required API keys are available for specific services. These can be
+applied at both the function and class levels.
 
-### Example Usage of APIKeyPER Class:
+### Function-level Decorator: `apikey_required`
 
-```python
-from apikeyper import APIKeyPER
+Ensure API keys are available for specific services at the function level.
 
-# Initialize APIKeyPER with a database file path
-api_key_per = APIKeyPER('path_to_your_database_file')
+### Class-level Decorator: `apikey_required_class`
 
-# Add an API key
-api_key_per.add_key('service_name', 'api_key')
+The `apikey_required_class` decorator ensures that the required API keys are available when an instance of the decorated
+class is created. If a key is not found in the database, it prompts the user for input and saves the provided key. It
+then sets the API key as a class attribute.
 
-# Get an API key
-api_key = api_key_per.get_key('service_name')
-print(api_key)
-```
-
-### Example Usage of Decorators:
+#### Example Usage of `apikey_required_class`:
 
 ```python
-from apikeyper.utils.decorators import apikey_required, apikey_required_class
-
-@apikey_required(["service1", "service2"])
-def my_function():
-    pass
+from apikeyper.utils.decorators import apikey_required_class
 
 @apikey_required_class(["service1", "service2"])
 class MyClass:
-    pass
+    def __init__(self, service1, service2):
+        self.service1_key = service1
+        self.service2_key = service2
+
+    def use_keys(self):
+        print(f"Using keys: {self.service1_key}, {self.service2_key}")
+
+# When an instance of MyClass is created, the decorator ensures that the keys for "service1" and "service2" are available.
+# If not found, it prompts the user for input and saves the keys.
+my_instance = MyClass()
+
+# The keys are now available as class attributes and can be used within the class methods.
+my_instance.use_keys()
 ```
+
+In this example, the `apikey_required_class` decorator is applied to the `MyClass` class, requiring keys for "service1"
+and "service2". When an instance of `MyClass` is created, the decorator ensures that the keys are available, either
+retrieving them from the database or prompting the user for input. The keys are then set as class attributes and can be
+used within the class methods.
