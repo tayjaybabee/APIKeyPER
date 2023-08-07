@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>apikeyper package &mdash; APIKeyPER 1.0-dev1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=4cba41c3"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="apikeyper.config package" href="apikeyper.config.html" />
+    <link rel="prev" title="Welcome to APIKeyPER’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            APIKeyPER
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">apikeyper package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.config.html">apikeyper.config package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.crypt.html">apikeyper.crypt package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.database.html">apikeyper.database package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.log_engine.html">apikeyper.log_engine package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.ui.html">apikeyper.ui package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.utils.html">apikeyper.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-apikeyper">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#apikeyper.APIKeyPER"><code class="docutils literal notranslate"><span class="pre">APIKeyPER</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#apikeyper.APIKeyPER.db"><code class="docutils literal notranslate"><span class="pre">APIKeyPER.db</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#apikeyper.APIKeyPER.add_key"><code class="docutils literal notranslate"><span class="pre">APIKeyPER.add_key()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#apikeyper.APIKeyPER.delete_key"><code class="docutils literal notranslate"><span class="pre">APIKeyPER.delete_key()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#apikeyper.APIKeyPER.get_key"><code class="docutils literal notranslate"><span class="pre">APIKeyPER.get_key()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#apikeyper.APIKeyPER.list_services"><code class="docutils literal notranslate"><span class="pre">APIKeyPER.list_services()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">APIKeyPER</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">apikeyper package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/apikeyper.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="apikeyper-package">
+<h1>apikeyper package<a class="headerlink" href="#apikeyper-package" title="Permalink to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="apikeyper.config.html">apikeyper.config package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="apikeyper.config.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apikeyper.config.html#module-apikeyper.config.arguments">apikeyper.config.arguments module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.config.html#apikeyper.config.arguments.Arguments"><code class="docutils literal notranslate"><span class="pre">Arguments</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.config.html#apikeyper.config.arguments.Arguments.parse"><code class="docutils literal notranslate"><span class="pre">Arguments.parse()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.config.html#apikeyper.config.arguments.Arguments.parsed"><code class="docutils literal notranslate"><span class="pre">Arguments.parsed</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="apikeyper.config.html#apikeyper-config-paths-module">apikeyper.config.paths module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apikeyper.config.html#module-apikeyper.config">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="apikeyper.crypt.html">apikeyper.crypt package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="apikeyper.crypt.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apikeyper.crypt.html#module-apikeyper.crypt.encryption_key">apikeyper.crypt.encryption_key module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.crypt.html#apikeyper.crypt.encryption_key.EncryptionKey"><code class="docutils literal notranslate"><span class="pre">EncryptionKey</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.crypt.html#apikeyper.crypt.encryption_key.EncryptionKey.export_to_file"><code class="docutils literal notranslate"><span class="pre">EncryptionKey.export_to_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.crypt.html#apikeyper.crypt.encryption_key.EncryptionKey.export_to_keyring"><code class="docutils literal notranslate"><span class="pre">EncryptionKey.export_to_keyring()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.crypt.html#apikeyper.crypt.encryption_key.EncryptionKey.export_to_sftp"><code class="docutils literal notranslate"><span class="pre">EncryptionKey.export_to_sftp()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.crypt.html#apikeyper.crypt.encryption_key.get_key_from_file"><code class="docutils literal notranslate"><span class="pre">get_key_from_file()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.crypt.html#apikeyper.crypt.encryption_key.get_key_from_keyring"><code class="docutils literal notranslate"><span class="pre">get_key_from_keyring()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.crypt.html#apikeyper.crypt.encryption_key.get_key_from_sftp"><code class="docutils literal notranslate"><span class="pre">get_key_from_sftp()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="apikeyper.crypt.html#module-apikeyper.crypt">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.crypt.html#apikeyper.crypt.CryptDB"><code class="docutils literal notranslate"><span class="pre">CryptDB</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.crypt.html#apikeyper.crypt.CryptDB.decrypt"><code class="docutils literal notranslate"><span class="pre">CryptDB.decrypt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.crypt.html#apikeyper.crypt.CryptDB.delete"><code class="docutils literal notranslate"><span class="pre">CryptDB.delete()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.crypt.html#apikeyper.crypt.CryptDB.encrypt"><code class="docutils literal notranslate"><span class="pre">CryptDB.encrypt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.crypt.html#apikeyper.crypt.CryptDB.export"><code class="docutils literal notranslate"><span class="pre">CryptDB.export()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.crypt.html#apikeyper.crypt.CryptDB.load"><code class="docutils literal notranslate"><span class="pre">CryptDB.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.crypt.html#apikeyper.crypt.CryptDB.move"><code class="docutils literal notranslate"><span class="pre">CryptDB.move()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.crypt.html#apikeyper.crypt.CryptDB.save"><code class="docutils literal notranslate"><span class="pre">CryptDB.save()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="apikeyper.database.html">apikeyper.database package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="apikeyper.database.html#module-apikeyper.database">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.database.html#apikeyper.database.APIKeyDB"><code class="docutils literal notranslate"><span class="pre">APIKeyDB</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.database.html#apikeyper.database.APIKeyDB.db_file_path"><code class="docutils literal notranslate"><span class="pre">APIKeyDB.db_file_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.database.html#apikeyper.database.APIKeyDB.conn"><code class="docutils literal notranslate"><span class="pre">APIKeyDB.conn</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.database.html#apikeyper.database.APIKeyDB.cursor"><code class="docutils literal notranslate"><span class="pre">APIKeyDB.cursor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.database.html#apikeyper.database.APIKeyDB.add_key"><code class="docutils literal notranslate"><span class="pre">APIKeyDB.add_key()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.database.html#apikeyper.database.APIKeyDB.close"><code class="docutils literal notranslate"><span class="pre">APIKeyDB.close()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.database.html#apikeyper.database.APIKeyDB.export_db_as_json"><code class="docutils literal notranslate"><span class="pre">APIKeyDB.export_db_as_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.database.html#apikeyper.database.APIKeyDB.export_db_as_xml"><code class="docutils literal notranslate"><span class="pre">APIKeyDB.export_db_as_xml()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.database.html#apikeyper.database.APIKeyDB.list_keys_for_service"><code class="docutils literal notranslate"><span class="pre">APIKeyDB.list_keys_for_service()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.database.html#apikeyper.database.APIKeyDB.list_services"><code class="docutils literal notranslate"><span class="pre">APIKeyDB.list_services()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="apikeyper.log_engine.html">apikeyper.log_engine package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="apikeyper.log_engine.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apikeyper.log_engine.html#module-apikeyper.log_engine.helpers">apikeyper.log_engine.helpers module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.log_engine.html#apikeyper.log_engine.helpers.CustomFormatter"><code class="docutils literal notranslate"><span class="pre">CustomFormatter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.log_engine.html#apikeyper.log_engine.helpers.CustomFormatter.format"><code class="docutils literal notranslate"><span class="pre">CustomFormatter.format()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.log_engine.html#apikeyper.log_engine.helpers.clean_module_name"><code class="docutils literal notranslate"><span class="pre">clean_module_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.log_engine.html#apikeyper.log_engine.helpers.is_number"><code class="docutils literal notranslate"><span class="pre">is_number()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.log_engine.html#apikeyper.log_engine.helpers.translate_to_logging_level"><code class="docutils literal notranslate"><span class="pre">translate_to_logging_level()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="apikeyper.log_engine.html#module-apikeyper.log_engine">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.log_engine.html#log-engine">log_engine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.log_engine.html#apikeyper.log_engine.Loggable"><code class="docutils literal notranslate"><span class="pre">Loggable</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.log_engine.html#apikeyper.log_engine.Loggable.__is_member__"><code class="docutils literal notranslate"><span class="pre">Loggable.__is_member__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.log_engine.html#apikeyper.log_engine.Loggable.create_child_logger"><code class="docutils literal notranslate"><span class="pre">Loggable.create_child_logger()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.log_engine.html#apikeyper.log_engine.Loggable.log_device"><code class="docutils literal notranslate"><span class="pre">Loggable.log_device</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.log_engine.html#apikeyper.log_engine.Logger"><code class="docutils literal notranslate"><span class="pre">Logger</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.log_engine.html#apikeyper.log_engine.Logger.__new__"><code class="docutils literal notranslate"><span class="pre">Logger.__new__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.log_engine.html#apikeyper.log_engine.Logger.find_child_by_name"><code class="docutils literal notranslate"><span class="pre">Logger.find_child_by_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.log_engine.html#apikeyper.log_engine.Logger.get_child"><code class="docutils literal notranslate"><span class="pre">Logger.get_child()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.log_engine.html#apikeyper.log_engine.Logger.get_child_names"><code class="docutils literal notranslate"><span class="pre">Logger.get_child_names()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.log_engine.html#apikeyper.log_engine.Logger.instances"><code class="docutils literal notranslate"><span class="pre">Logger.instances</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.log_engine.html#apikeyper.log_engine.Logger.set_level"><code class="docutils literal notranslate"><span class="pre">Logger.set_level()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.log_engine.html#apikeyper.log_engine.Logger.set_up_console"><code class="docutils literal notranslate"><span class="pre">Logger.set_up_console()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.log_engine.html#apikeyper.log_engine.Logger.set_up_file"><code class="docutils literal notranslate"><span class="pre">Logger.set_up_file()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.log_engine.html#apikeyper.log_engine.add_child"><code class="docutils literal notranslate"><span class="pre">add_child()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="apikeyper.ui.html">apikeyper.ui package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="apikeyper.ui.html#module-apikeyper.ui">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.ui.html#apikeyper.ui.CLI"><code class="docutils literal notranslate"><span class="pre">CLI</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.ui.html#apikeyper.ui.CLI.apikeyper"><code class="docutils literal notranslate"><span class="pre">CLI.apikeyper</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.ui.html#apikeyper.ui.UserInputHandler"><code class="docutils literal notranslate"><span class="pre">UserInputHandler</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.ui.html#apikeyper.ui.UserInputHandler.use_gui"><code class="docutils literal notranslate"><span class="pre">UserInputHandler.use_gui</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.ui.html#apikeyper.ui.UserInputHandler.__gui"><code class="docutils literal notranslate"><span class="pre">UserInputHandler.__gui</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.ui.html#apikeyper.ui.UserInputHandler.get_password"><code class="docutils literal notranslate"><span class="pre">UserInputHandler.get_password()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="apikeyper.utils.html">apikeyper.utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="apikeyper.utils.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apikeyper.utils.html#module-apikeyper.utils.decorators">apikeyper.utils.decorators module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.utils.html#decorators-py">decorators.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.utils.html#apikeyper.utils.decorators.apikey_required"><code class="docutils literal notranslate"><span class="pre">apikey_required()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.utils.html#apikeyper.utils.decorators.apikey_required_class"><code class="docutils literal notranslate"><span class="pre">apikey_required_class()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="apikeyper.utils.html#module-apikeyper.utils">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.utils.html#init-py">__init__.py</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.utils.html#apikeyper.utils.PackageChecker"><code class="docutils literal notranslate"><span class="pre">PackageChecker</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.utils.html#apikeyper.utils.PackageChecker.packages_list"><code class="docutils literal notranslate"><span class="pre">PackageChecker.packages_list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="apikeyper.utils.html#apikeyper.utils.PackageChecker.check_installed_packages"><code class="docutils literal notranslate"><span class="pre">PackageChecker.check_installed_packages()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="module-apikeyper">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-apikeyper" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="apikeyper.APIKeyPER">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apikeyper.</span></span><span class="sig-name descname"><span class="pre">APIKeyPER</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db_file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper.html#APIKeyPER"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.APIKeyPER" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>This class provides a higher-level interface for managing API keys stored in a SQLite database.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apikeyper.APIKeyPER.db">
+<span class="sig-name descname"><span class="pre">db</span></span><a class="headerlink" href="#apikeyper.APIKeyPER.db" title="Permalink to this definition"></a></dt>
+<dd><p>An instance of the APIKeyDB class for managing API keys.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="apikeyper.database.html#apikeyper.database.APIKeyDB" title="apikeyper.database.APIKeyDB">APIKeyDB</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apikeyper.APIKeyPER.add_key">
+<span class="sig-name descname"><span class="pre">add_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper.html#APIKeyPER.add_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.APIKeyPER.add_key" title="Permalink to this definition"></a></dt>
+<dd><p>Add a key to database associated with a service.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>service</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The service the API key is associated with.</p></li>
+<li><p><strong>api_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The API key associated with the given service.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apikeyper.APIKeyPER.delete_key">
+<span class="sig-name descname"><span class="pre">delete_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper.html#APIKeyPER.delete_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.APIKeyPER.delete_key" title="Permalink to this definition"></a></dt>
+<dd><p>Deletes an API key for a specific service from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>service</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The service to delete the key for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apikeyper.APIKeyPER.get_key">
+<span class="sig-name descname"><span class="pre">get_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper.html#APIKeyPER.get_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.APIKeyPER.get_key" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves an API key for a specific service from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>service</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The service to retrieve the key for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The retrieved API key.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apikeyper.APIKeyPER.list_services">
+<span class="sig-name descname"><span class="pre">list_services</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper.html#APIKeyPER.list_services"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.APIKeyPER.list_services" title="Permalink to this definition"></a></dt>
+<dd><p>Lists all unique services in the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of all unique services.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to APIKeyPER’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="apikeyper.config.html" class="btn btn-neutral float-right" title="apikeyper.config package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>apikeyper.utils.decorators &mdash; APIKeyPER 1.0-dev1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=4cba41c3"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            APIKeyPER
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../apikeyper.html">apikeyper package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">APIKeyPER</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../apikeyper.html">apikeyper</a></li>
+          <li class="breadcrumb-item"><a href="../utils.html">apikeyper.utils</a></li>
+      <li class="breadcrumb-item active">apikeyper.utils.decorators</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for apikeyper.utils.decorators</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">decorators.py</span>
+<span class="sd">-------------</span>
+<span class="sd">Author: tayja</span>
+<span class="sd">Date: 8/3/2023</span>
+
+<span class="sd">This module provides decorators for ensuring API keys are available for specific services.</span>
+<span class="sd">It offers both function-level and class-level decorators:</span>
+
+<span class="sd">1. `apikey_required(service_names)`:</span>
+<span class="sd">    A decorator for functions. When a function decorated with this is called, it checks</span>
+<span class="sd">    if the required API keys are available. If a key is not found in the database,</span>
+<span class="sd">    it prompts the user for input and saves the provided key.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        service_names (Union[str, List[str]]):</span>
+<span class="sd">            A list of service names for which API keys are needed.</span>
+<span class="sd">            If a single string is provided, it&#39;s converted to a list.</span>
+
+<span class="sd">2. `apikey_required_class(service_names)`:</span>
+<span class="sd">    A decorator for classes. When an instance of a class decorated with this is created,</span>
+<span class="sd">    it checks if the required API keys are available for the given services.</span>
+<span class="sd">    If a key is not found in the database, it prompts the user for input and saves the provided key.</span>
+<span class="sd">    It then sets the API key as a class attribute.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        service_names (Union[str, List[str]]):</span>
+<span class="sd">            A list of service names for which API keys are needed.</span>
+<span class="sd">            If a single string is provided, it&#39;s converted to a list.</span>
+
+<span class="sd">Usage example::</span>
+
+<span class="sd">    @apikey_required([&quot;service1&quot;, &quot;service2&quot;])</span>
+<span class="sd">    def my_function():</span>
+<span class="sd">        pass</span>
+
+<span class="sd">    @apikey_required_class([&quot;service1&quot;, &quot;service2&quot;])</span>
+<span class="sd">    class MyClass:</span>
+<span class="sd">        pass</span>
+
+<span class="sd">Note:</span>
+<span class="sd">    This module uses the APIKeyPER database manager for retrieving and storing API keys.Ensure that the APIKeyPER</span>
+<span class="sd">    manager is initialized and connected to the correct database before use.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="apikey_required"><a class="viewcode-back" href="../../../apikeyper.utils.html#apikeyper.utils.decorators.apikey_required">[docs]</a><span class="k">def</span> <span class="nf">apikey_required</span><span class="p">(</span><span class="n">service_names</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A decorator to ensure API keys are available for given services.</span>
+<span class="sd">    If a key is not available in the database, it prompts the user for input.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">service_names</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">service_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">service_names</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">api_manager</span> <span class="o">=</span> <span class="n">APIKeyPER</span><span class="p">(</span><span class="s2">&quot;default_apikeys.db&quot;</span><span class="p">)</span>
+
+            <span class="n">api_keys</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">service_name</span> <span class="ow">in</span> <span class="n">service_names</span><span class="p">:</span>
+                <span class="n">api_key</span> <span class="o">=</span> <span class="n">api_manager</span><span class="o">.</span><span class="n">get_key</span><span class="p">(</span><span class="n">service_name</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">api_key</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;No API key found for </span><span class="si">{</span><span class="n">service_name</span><span class="si">}</span><span class="s2">. Please provide the API key:&quot;</span>
+                    <span class="p">)</span>
+                    <span class="n">user_api_key</span> <span class="o">=</span> <span class="nb">input</span><span class="p">()</span>  <span class="c1"># Get user input for the API key</span>
+                    <span class="n">api_manager</span><span class="o">.</span><span class="n">add_key</span><span class="p">(</span><span class="n">service_name</span><span class="p">,</span> <span class="n">user_api_key</span><span class="p">)</span>
+                    <span class="n">api_keys</span><span class="p">[</span><span class="n">service_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">user_api_key</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">api_keys</span><span class="p">[</span><span class="n">service_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">api_key</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;api_keys&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">api_keys</span>
+            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">wrapper</span>
+
+    <span class="k">return</span> <span class="n">decorator</span></div>
+
+
+<div class="viewcode-block" id="apikey_required_class"><a class="viewcode-back" href="../../../apikeyper.utils.html#apikeyper.utils.decorators.apikey_required_class">[docs]</a><span class="k">def</span> <span class="nf">apikey_required_class</span><span class="p">(</span><span class="n">service_names</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class decorator to ensure API keys are available for given services.</span>
+<span class="sd">    If a key is not available in the database, it prompts the user for input.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">service_names</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">service_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">service_names</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="n">original_init</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__init__</span>
+
+        <span class="k">def</span> <span class="nf">new_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">api_manager</span> <span class="o">=</span> <span class="n">APIKeyPER</span><span class="p">(</span><span class="s2">&quot;default_apikeys.db&quot;</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">service_name</span> <span class="ow">in</span> <span class="n">service_names</span><span class="p">:</span>
+                <span class="n">api_key</span> <span class="o">=</span> <span class="n">api_manager</span><span class="o">.</span><span class="n">get_key</span><span class="p">(</span><span class="n">service_name</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">api_key</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;No API key found for </span><span class="si">{</span><span class="n">service_name</span><span class="si">}</span><span class="s2">. Please provide the API key:&quot;</span>
+                    <span class="p">)</span>
+                    <span class="n">user_api_key</span> <span class="o">=</span> <span class="nb">input</span><span class="p">()</span>  <span class="c1"># Get user input for the API key</span>
+                    <span class="n">api_manager</span><span class="o">.</span><span class="n">add_key</span><span class="p">(</span><span class="n">service_name</span><span class="p">,</span> <span class="n">user_api_key</span><span class="p">)</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">service_name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;_API_KEY&quot;</span><span class="p">,</span> <span class="n">user_api_key</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">service_name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;_API_KEY&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+            <span class="n">original_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">cls</span><span class="o">.</span><span class="fm">__init__</span> <span class="o">=</span> <span class="n">new_init</span>
+        <span class="k">return</span> <span class="bp">cls</span>
+
+    <span class="k">return</span> <span class="n">decorator</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>apikeyper.crypt.encryption_key &mdash; APIKeyPER 1.0-dev1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=4cba41c3"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            APIKeyPER
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../apikeyper.html">apikeyper package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">APIKeyPER</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../crypt.html">apikeyper.crypt</a></li>
+      <li class="breadcrumb-item active">apikeyper.crypt.encryption_key</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for apikeyper.crypt.encryption_key</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Filename: encryption_key</span>
+<span class="sd">Author: tayja</span>
+<span class="sd">Date: 8/3/2023</span>
+<span class="sd">Description: </span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">importlib</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">cryptography.fernet</span> <span class="kn">import</span> <span class="n">Fernet</span>
+
+
+<div class="viewcode-block" id="get_key_from_file"><a class="viewcode-back" href="../../../apikeyper.crypt.html#apikeyper.crypt.encryption_key.get_key_from_file">[docs]</a><span class="k">def</span> <span class="nf">get_key_from_file</span><span class="p">(</span><span class="n">key_file</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Retrieve the encryption key from a file. If the file doesn&#39;t exist, generate a new key and save it to the file.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        key_file (str): Path to the file storing the encryption key.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bytes: The encryption key.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">key_file</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">key_file</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">key_f</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">key_f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Generate key and save it to file</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">Fernet</span><span class="o">.</span><span class="n">generate_key</span><span class="p">()</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">key_file</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">key_f</span><span class="p">:</span>
+            <span class="n">key_f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">key</span></div>
+
+
+<div class="viewcode-block" id="get_key_from_keyring"><a class="viewcode-back" href="../../../apikeyper.crypt.html#apikeyper.crypt.encryption_key.get_key_from_keyring">[docs]</a><span class="k">def</span> <span class="nf">get_key_from_keyring</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Retrieve the encryption key from the system&#39;s keyring. If it&#39;s not found, generate a new key and save it.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bytes: The encryption key.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">keyring</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;keyring&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">key</span> <span class="o">:=</span> <span class="n">keyring</span><span class="o">.</span><span class="n">get_password</span><span class="p">(</span><span class="s2">&quot;cryptdb&quot;</span><span class="p">,</span> <span class="s2">&quot;encryption_key&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">key</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+    <span class="c1"># Generate key and save it to keyring</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">Fernet</span><span class="o">.</span><span class="n">generate_key</span><span class="p">()</span>
+    <span class="n">keyring</span><span class="o">.</span><span class="n">set_password</span><span class="p">(</span><span class="s2">&quot;cryptdb&quot;</span><span class="p">,</span> <span class="s2">&quot;encryption_key&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">key</span></div>
+
+
+<div class="viewcode-block" id="get_key_from_sftp"><a class="viewcode-back" href="../../../apikeyper.crypt.html#apikeyper.crypt.encryption_key.get_key_from_sftp">[docs]</a><span class="k">def</span> <span class="nf">get_key_from_sftp</span><span class="p">(</span><span class="n">sftp_details</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Retrieve the encryption key from an SFTP server.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        sftp_details (dict): A dictionary containing the connection details for the SFTP server.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bytes: The encryption key.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">paramiko</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;paramiko&quot;</span><span class="p">)</span>
+
+    <span class="n">transport</span> <span class="o">=</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">Transport</span><span class="p">((</span><span class="n">sftp_details</span><span class="p">[</span><span class="s2">&quot;host&quot;</span><span class="p">],</span> <span class="n">sftp_details</span><span class="p">[</span><span class="s2">&quot;port&quot;</span><span class="p">]))</span>
+    <span class="n">transport</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+        <span class="n">username</span><span class="o">=</span><span class="n">sftp_details</span><span class="p">[</span><span class="s2">&quot;username&quot;</span><span class="p">],</span> <span class="n">password</span><span class="o">=</span><span class="n">sftp_details</span><span class="p">[</span><span class="s2">&quot;password&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">sftp</span> <span class="o">=</span> <span class="n">transport</span><span class="o">.</span><span class="n">open_sftp</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="n">sftp</span><span class="o">.</span><span class="n">file</span><span class="p">(</span><span class="n">sftp_details</span><span class="p">[</span><span class="s2">&quot;remote_key_path&quot;</span><span class="p">],</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">remote_file</span><span class="p">:</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">remote_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+
+    <span class="n">sftp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">transport</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">key</span></div>
+
+
+<div class="viewcode-block" id="EncryptionKey"><a class="viewcode-back" href="../../../apikeyper.crypt.html#apikeyper.crypt.encryption_key.EncryptionKey">[docs]</a><span class="k">class</span> <span class="nc">EncryptionKey</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class that represents an encryption key. This class supports multiple storage methods.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage_method</span><span class="p">,</span> <span class="n">key_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sftp_details</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a new EncryptionKey instance.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            storage_method (str): The method used for key storage.</span>
+<span class="sd">            key_file (str, optional): The path to the file that stores the encryption key.</span>
+<span class="sd">            sftp_details (dict, optional): A dictionary containing the connection details for the SFTP server.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">storage_method</span> <span class="o">=</span> <span class="n">storage_method</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key_file</span> <span class="o">=</span> <span class="n">key_file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sftp_details</span> <span class="o">=</span> <span class="n">sftp_details</span>
+
+        <span class="c1"># Load the encryption key from the specified storage method</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_key</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_load_key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load the encryption key from the specified storage method.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bytes: The encryption key.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_method</span> <span class="o">==</span> <span class="s2">&quot;file&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">get_key_from_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key_file</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_method</span> <span class="o">==</span> <span class="s2">&quot;keyring&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">get_key_from_keyring</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_method</span> <span class="o">==</span> <span class="s2">&quot;sftp&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">get_key_from_sftp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sftp_details</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown key_storage method: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_method</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="EncryptionKey.export_to_file"><a class="viewcode-back" href="../../../apikeyper.crypt.html#apikeyper.crypt.encryption_key.EncryptionKey.export_to_file">[docs]</a>    <span class="k">def</span> <span class="nf">export_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key_file</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Export the encryption key to a file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            key_file (str): The path to the file that will store the exported key.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">key_file</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="EncryptionKey.export_to_keyring"><a class="viewcode-back" href="../../../apikeyper.crypt.html#apikeyper.crypt.encryption_key.EncryptionKey.export_to_keyring">[docs]</a>    <span class="k">def</span> <span class="nf">export_to_keyring</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Export the encryption key to the system&#39;s keyring.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">keyring</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;keyring&quot;</span><span class="p">)</span>
+        <span class="n">keyring</span><span class="o">.</span><span class="n">set_password</span><span class="p">(</span><span class="s2">&quot;cryptdb&quot;</span><span class="p">,</span> <span class="s2">&quot;encryption_key&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="EncryptionKey.export_to_sftp"><a class="viewcode-back" href="../../../apikeyper.crypt.html#apikeyper.crypt.encryption_key.EncryptionKey.export_to_sftp">[docs]</a>    <span class="k">def</span> <span class="nf">export_to_sftp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sftp_details</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Export the encryption key to an SFTP server.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            sftp_details (dict): A dictionary containing the connection details for the SFTP server.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">paramiko</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s2">&quot;paramiko&quot;</span><span class="p">)</span>
+
+        <span class="n">transport</span> <span class="o">=</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">Transport</span><span class="p">((</span><span class="n">sftp_details</span><span class="p">[</span><span class="s2">&quot;host&quot;</span><span class="p">],</span> <span class="n">sftp_details</span><span class="p">[</span><span class="s2">&quot;port&quot;</span><span class="p">]))</span>
+        <span class="n">transport</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+            <span class="n">username</span><span class="o">=</span><span class="n">sftp_details</span><span class="p">[</span><span class="s2">&quot;username&quot;</span><span class="p">],</span> <span class="n">password</span><span class="o">=</span><span class="n">sftp_details</span><span class="p">[</span><span class="s2">&quot;password&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">sftp</span> <span class="o">=</span> <span class="n">transport</span><span class="o">.</span><span class="n">open_sftp</span><span class="p">()</span>
+
+        <span class="k">with</span> <span class="n">sftp</span><span class="o">.</span><span class="n">file</span><span class="p">(</span><span class="n">sftp_details</span><span class="p">[</span><span class="s2">&quot;remote_key_path&quot;</span><span class="p">],</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">remote_file</span><span class="p">:</span>
+            <span class="n">remote_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+
+        <span class="n">sftp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">transport</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

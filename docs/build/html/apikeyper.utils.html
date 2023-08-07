@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>apikeyper.utils package &mdash; APIKeyPER 1.0-dev1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=4cba41c3"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="apikeyper.ui package" href="apikeyper.ui.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            APIKeyPER
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="apikeyper.html">apikeyper package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="apikeyper.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.config.html">apikeyper.config package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.crypt.html">apikeyper.crypt package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.database.html">apikeyper.database package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.log_engine.html">apikeyper.log_engine package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.ui.html">apikeyper.ui package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">apikeyper.utils package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-apikeyper.utils.decorators">apikeyper.utils.decorators module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-apikeyper.utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="apikeyper.html#module-apikeyper">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">APIKeyPER</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="apikeyper.html">apikeyper package</a></li>
+      <li class="breadcrumb-item active">apikeyper.utils package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/apikeyper.utils.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="apikeyper-utils-package">
+<h1>apikeyper.utils package<a class="headerlink" href="#apikeyper-utils-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-apikeyper.utils.decorators">
+<span id="apikeyper-utils-decorators-module"></span><h2>apikeyper.utils.decorators module<a class="headerlink" href="#module-apikeyper.utils.decorators" title="Permalink to this heading"></a></h2>
+<section id="decorators-py">
+<h3>decorators.py<a class="headerlink" href="#decorators-py" title="Permalink to this heading"></a></h3>
+<p>Author: tayja
+Date: 8/3/2023</p>
+<p>This module provides decorators for ensuring API keys are available for specific services.
+It offers both function-level and class-level decorators:</p>
+<ol class="arabic">
+<li><dl>
+<dt><cite>apikey_required(service_names)</cite>:</dt><dd><p>A decorator for functions. When a function decorated with this is called, it checks
+if the required API keys are available. If a key is not found in the database,
+it prompts the user for input and saves the provided key.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>service_names (Union[str, List[str]]):</dt><dd><p>A list of service names for which API keys are needed.
+If a single string is provided, it’s converted to a list.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt><cite>apikey_required_class(service_names)</cite>:</dt><dd><p>A decorator for classes. When an instance of a class decorated with this is created,
+it checks if the required API keys are available for the given services.
+If a key is not found in the database, it prompts the user for input and saves the provided key.
+It then sets the API key as a class attribute.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>service_names (Union[str, List[str]]):</dt><dd><p>A list of service names for which API keys are needed.
+If a single string is provided, it’s converted to a list.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</li>
+</ol>
+<p>Usage example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@apikey_required</span><span class="p">([</span><span class="s2">&quot;service1&quot;</span><span class="p">,</span> <span class="s2">&quot;service2&quot;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">my_function</span><span class="p">():</span>
+    <span class="k">pass</span>
+
+<span class="nd">@apikey_required_class</span><span class="p">([</span><span class="s2">&quot;service1&quot;</span><span class="p">,</span> <span class="s2">&quot;service2&quot;</span><span class="p">])</span>
+<span class="k">class</span> <span class="nc">MyClass</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This module uses the APIKeyPER database manager for retrieving and storing API keys.Ensure that the APIKeyPER
+manager is initialized and connected to the correct database before use.</p>
+</div>
+</section>
+<dl class="py function">
+<dt class="sig sig-object py" id="apikeyper.utils.decorators.apikey_required">
+<span class="sig-prename descclassname"><span class="pre">apikeyper.utils.decorators.</span></span><span class="sig-name descname"><span class="pre">apikey_required</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_names</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/utils/decorators.html#apikey_required"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.utils.decorators.apikey_required" title="Permalink to this definition"></a></dt>
+<dd><p>A decorator to ensure API keys are available for given services.
+If a key is not available in the database, it prompts the user for input.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apikeyper.utils.decorators.apikey_required_class">
+<span class="sig-prename descclassname"><span class="pre">apikeyper.utils.decorators.</span></span><span class="sig-name descname"><span class="pre">apikey_required_class</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service_names</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/utils/decorators.html#apikey_required_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.utils.decorators.apikey_required_class" title="Permalink to this definition"></a></dt>
+<dd><p>A class decorator to ensure API keys are available for given services.
+If a key is not available in the database, it prompts the user for input.</p>
+</dd></dl>
+
+</section>
+<section id="module-apikeyper.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-apikeyper.utils" title="Permalink to this heading"></a></h2>
+<section id="init-py">
+<h3>__init__.py<a class="headerlink" href="#init-py" title="Permalink to this heading"></a></h3>
+<p>Author: Taylor-Jayde
+Date: 8/3/2023</p>
+<p>This module provides the <cite>PackageChecker</cite> class to verify the installation status
+of a list of Python packages within the current environment.</p>
+<p>The main functionality of the <cite>PackageChecker</cite> class is to take a list of package names
+as input and return a dictionary indicating which packages are installed and which are not.</p>
+<p>Usage example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">checker</span> <span class="o">=</span> <span class="n">PackageChecker</span><span class="p">([</span><span class="s2">&quot;numpy&quot;</span><span class="p">,</span> <span class="s2">&quot;tensorflow&quot;</span><span class="p">])</span>
+<span class="n">status</span> <span class="o">=</span> <span class="n">checker</span><span class="o">.</span><span class="n">check_installed_packages</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>  <span class="c1"># Output might be: {&quot;numpy&quot;: True, &quot;tensorflow&quot;: False}</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>Dependencies:</dt><dd><p>This module requires the <cite>pkg_resources</cite> module to determine the installation status of packages.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Ensure the list of packages provided to the <cite>PackageChecker</cite> class are correctly named
+as they appear in the Python Package Index (PyPI) or your local installation.</p>
+</div>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="apikeyper.utils.PackageChecker">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apikeyper.utils.</span></span><span class="sig-name descname"><span class="pre">PackageChecker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">packages_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/utils.html#PackageChecker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.utils.PackageChecker" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A class to check the installation status of a list of Python packages.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apikeyper.utils.PackageChecker.packages_list">
+<span class="sig-name descname"><span class="pre">packages_list</span></span><a class="headerlink" href="#apikeyper.utils.PackageChecker.packages_list" title="Permalink to this definition"></a></dt>
+<dd><p>A list of package names to check.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apikeyper.utils.PackageChecker.check_installed_packages">
+<span class="sig-name descname"><span class="pre">check_installed_packages</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/utils.html#PackageChecker.check_installed_packages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.utils.PackageChecker.check_installed_packages" title="Permalink to this definition"></a></dt>
+<dd><p>Check which packages from the list are installed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary with package names as keys and their installation status (True/False) as values.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="apikeyper.ui.html" class="btn btn-neutral float-left" title="apikeyper.ui package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

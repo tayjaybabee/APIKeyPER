@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>apikeyper.log_engine package &mdash; APIKeyPER 1.0-dev1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=4cba41c3"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="apikeyper.ui package" href="apikeyper.ui.html" />
+    <link rel="prev" title="apikeyper.database package" href="apikeyper.database.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            APIKeyPER
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="apikeyper.html">apikeyper package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="apikeyper.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.config.html">apikeyper.config package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.crypt.html">apikeyper.crypt package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.database.html">apikeyper.database package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">apikeyper.log_engine package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-apikeyper.log_engine.helpers">apikeyper.log_engine.helpers module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-apikeyper.log_engine">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.ui.html">apikeyper.ui package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.utils.html">apikeyper.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="apikeyper.html#module-apikeyper">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">APIKeyPER</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="apikeyper.html">apikeyper package</a></li>
+      <li class="breadcrumb-item active">apikeyper.log_engine package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/apikeyper.log_engine.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="apikeyper-log-engine-package">
+<h1>apikeyper.log_engine package<a class="headerlink" href="#apikeyper-log-engine-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-apikeyper.log_engine.helpers">
+<span id="apikeyper-log-engine-helpers-module"></span><h2>apikeyper.log_engine.helpers module<a class="headerlink" href="#module-apikeyper.log_engine.helpers" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="apikeyper.log_engine.helpers.CustomFormatter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apikeyper.log_engine.helpers.</span></span><span class="sig-name descname"><span class="pre">CustomFormatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fmt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datefmt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'%'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defaults</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/log_engine/helpers.html#CustomFormatter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.log_engine.helpers.CustomFormatter" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/logging.html#logging.Formatter" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Formatter</span></code></a></p>
+<p>CustomFormatter extends the logging.Formatter class to provide a custom
+formatting behavior. Specifically, it replaces ‘&lt;ipython-input-…&gt;’
+patterns in record.pathname with ‘iPython’.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="apikeyper.log_engine.helpers.CustomFormatter.format">
+<span class="sig-name descname"><span class="pre">format</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/log_engine/helpers.html#CustomFormatter.format"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.log_engine.helpers.CustomFormatter.format" title="Permalink to this definition"></a></dt>
+<dd><p>Replaces &lt;ipython-input-…&gt; pattern in record.pathname with ‘iPython’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>record</strong> (<a class="reference external" href="https://docs.python.org/3/library/logging.html#logging.LogRecord" title="(in Python v3.11)"><em>logging.LogRecord</em></a>) – The record to format.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The formatted record.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apikeyper.log_engine.helpers.clean_module_name">
+<span class="sig-prename descclassname"><span class="pre">apikeyper.log_engine.helpers.</span></span><span class="sig-name descname"><span class="pre">clean_module_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/log_engine/helpers.html#clean_module_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.log_engine.helpers.clean_module_name" title="Permalink to this definition"></a></dt>
+<dd><p>Replaces &lt;ipython-input-…&gt; pattern in the given module name with ‘iPython’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>module_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The module name to clean.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The cleaned module name.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apikeyper.log_engine.helpers.is_number">
+<span class="sig-prename descclassname"><span class="pre">apikeyper.log_engine.helpers.</span></span><span class="sig-name descname"><span class="pre">is_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_integer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rounding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/log_engine/helpers.html#is_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.log_engine.helpers.is_number" title="Permalink to this definition"></a></dt>
+<dd><p>Checks if a given string can be converted to a number and optionally
+rounds or converts the result to an integer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>string</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The string to check.</p></li>
+<li><p><strong>force_integer</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – If True, the result will be converted to an integer.</p></li>
+<li><p><strong>rounding</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>optional</em>) – The number of decimal places to round to.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The converted number, or the original string if it cannot be converted.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a>|<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a>|<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apikeyper.log_engine.helpers.translate_to_logging_level">
+<span class="sig-prename descclassname"><span class="pre">apikeyper.log_engine.helpers.</span></span><span class="sig-name descname"><span class="pre">translate_to_logging_level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">level_str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/log_engine/helpers.html#translate_to_logging_level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.log_engine.helpers.translate_to_logging_level" title="Permalink to this definition"></a></dt>
+<dd><p>Translates a given string to a logging level.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>level_str</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The string to translate.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The corresponding logging level, or None if the string does not correspond to a level.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-apikeyper.log_engine">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-apikeyper.log_engine" title="Permalink to this heading"></a></h2>
+<section id="log-engine">
+<h3>log_engine<a class="headerlink" href="#log-engine" title="Permalink to this heading"></a></h3>
+<p>Author: Taylor-Jayde
+Date: Today’s Date</p>
+<p>This module provides logging utilities tailored for the APIKeyPER application. It establishes a flexible logging mechanism
+with support for both console and file outputs, featuring rich, colored console logs using the Rich library. The module
+also incorporates a Singleton design pattern for the Logger class, ensuring consistent logging behavior across the
+application.</p>
+<p>Furthermore, the module provides a meta-class ‘Loggable’ which can be inherited by other classes to instantly equip them
+with logging capabilities.</p>
+<dl class="simple">
+<dt>Key components:</dt><dd><ul class="simple">
+<li><p>Logger: A Singleton class responsible for managing application logging.</p></li>
+<li><p>Loggable: A meta-class providing logging capabilities to the classes that inherit from it.</p></li>
+</ul>
+</dd>
+<dt>Dependencies:</dt><dd><ul class="simple">
+<li><p>logging: Standard library module for event logging.</p></li>
+<li><p>RichHandler from rich.logging: Provides rich, colored output for console logs.</p></li>
+<li><p>inspect: Standard library module for introspecting live objects.</p></li>
+<li><p>apikeyper.__about__: Module providing metadata about the APIKeyPER application.</p></li>
+<li><p>apikeyper.log_engine.helpers: Helper functions for the logging engine.</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="apikeyper.log_engine.Loggable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apikeyper.log_engine.</span></span><span class="sig-name descname"><span class="pre">Loggable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent_log_device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/log_engine.html#Loggable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.log_engine.Loggable" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A metaclass to enhance classes with logging capabilities. Classes that inherit from
+‘Loggable’ can instantly access a logger without manually setting it up. This logger
+is derived from a parent logger, ensuring consistent logging behavior and hierarchy.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">log_device</span></span></dt>
+<dd><p>The logger device associated with the instance of the class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apikeyper.log_engine.Loggable.__is_member__">
+<span class="sig-name descname"><span class="pre">__is_member__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/log_engine.html#Loggable.__is_member__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.log_engine.Loggable.__is_member__" title="Permalink to this definition"></a></dt>
+<dd><p>Checks whether the caller of this method is a member of the same class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#PermissionError" title="(in Python v3.11)"><strong>PermissionError</strong></a> – If the caller of this method is not a member of the same class.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apikeyper.log_engine.Loggable.create_child_logger">
+<span class="sig-name descname"><span class="pre">create_child_logger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">override</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/log_engine.html#Loggable.create_child_logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.log_engine.Loggable.create_child_logger" title="Permalink to this definition"></a></dt>
+<dd><p>Creates and returns a child logger of this object’s logger.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>optional</em>) – The name of the child logger.
+If not provided, the name of the calling function is used.</p></li>
+<li><p><strong>override</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em>, </em><em>optional</em>) – A flag to override the membership check. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An instance of the Logger class that represents the child logger.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#apikeyper.log_engine.Logger" title="apikeyper.log_engine.Logger">Logger</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="apikeyper.log_engine.Loggable.log_device">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">log_device</span></span><a class="headerlink" href="#apikeyper.log_engine.Loggable.log_device" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="apikeyper.log_engine.Logger">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apikeyper.log_engine.</span></span><span class="sig-name descname"><span class="pre">Logger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/log_engine.html#Logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.log_engine.Logger" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A Singleton class responsible for managing the logging mechanisms of the application.
+It ensures consistent logging behavior across different parts of the application by
+maintaining single instances of loggers with specific names. The class supports
+logging to both the console (with colored output) and a file.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">-</span> <span class="pre">instances</span></span></dt>
+<dd><p>Keeps track of logger instances to implement the Singleton pattern.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apikeyper.log_engine.Logger.__new__">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/log_engine.html#Logger.__new__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.log_engine.Logger.__new__" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a new instance or returns an existing instance of the Logger class for the provided name.
+This method ensures that only one instance of Logger with a given name exists, implementing the Singleton pattern.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The name of the logger.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An instance of the Logger class.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#apikeyper.log_engine.Logger" title="apikeyper.log_engine.Logger">Logger</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apikeyper.log_engine.Logger.find_child_by_name">
+<span class="sig-name descname"><span class="pre">find_child_by_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/log_engine.html#Logger.find_child_by_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.log_engine.Logger.find_child_by_name" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apikeyper.log_engine.Logger.get_child">
+<span class="sig-name descname"><span class="pre">get_child</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">console_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/log_engine.html#Logger.get_child"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.log_engine.Logger.get_child" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apikeyper.log_engine.Logger.get_child_names">
+<span class="sig-name descname"><span class="pre">get_child_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/log_engine.html#Logger.get_child_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.log_engine.Logger.get_child_names" title="Permalink to this definition"></a></dt>
+<dd><p>Fetches the names of all child loggers associated with this logger instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list containing the names of all child loggers.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apikeyper.log_engine.Logger.instances">
+<span class="sig-name descname"><span class="pre">instances</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'APIKeyPER':</span> <span class="pre">&lt;apikeyper.log_engine.Logger</span> <span class="pre">object&gt;,</span> <span class="pre">'APIKeyPER.log_engine':</span> <span class="pre">&lt;apikeyper.log_engine.Logger</span> <span class="pre">object&gt;,</span> <span class="pre">'APIKeyPER.ui':</span> <span class="pre">&lt;apikeyper.log_engine.Logger</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#apikeyper.log_engine.Logger.instances" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apikeyper.log_engine.Logger.set_level">
+<span class="sig-name descname"><span class="pre">set_level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">console_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/log_engine.html#Logger.set_level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.log_engine.Logger.set_level" title="Permalink to this definition"></a></dt>
+<dd><p>Updates the logging levels for both the console and file handlers. If provided, also updates child loggers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>console_level</strong> (<em>logging level object</em><em>, </em><em>optional</em>) – The console logging level. Defaults to None.</p></li>
+<li><p><strong>file_level</strong> (<em>logging level object</em><em>, </em><em>optional</em>) – The file logging level. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apikeyper.log_engine.Logger.set_up_console">
+<span class="sig-name descname"><span class="pre">set_up_console</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/log_engine.html#Logger.set_up_console"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.log_engine.Logger.set_up_console" title="Permalink to this definition"></a></dt>
+<dd><p>Configures and attaches a console handler to the logger. This method uses the RichHandler to produce
+colored and formatted console outputs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apikeyper.log_engine.Logger.set_up_file">
+<span class="sig-name descname"><span class="pre">set_up_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/log_engine.html#Logger.set_up_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.log_engine.Logger.set_up_file" title="Permalink to this definition"></a></dt>
+<dd><p>Configures and attaches a file handler to the logger. This ensures that log messages are also written
+to a specified file.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="apikeyper.log_engine.add_child">
+<span class="sig-prename descclassname"><span class="pre">apikeyper.log_engine.</span></span><span class="sig-name descname"><span class="pre">add_child</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">console_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#apikeyper.log_engine.add_child" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="apikeyper.database.html" class="btn btn-neutral float-left" title="apikeyper.database package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="apikeyper.ui.html" class="btn btn-neutral float-right" title="apikeyper.ui package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

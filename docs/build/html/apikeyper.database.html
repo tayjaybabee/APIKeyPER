@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>apikeyper.database package &mdash; APIKeyPER 1.0-dev1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=4cba41c3"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="apikeyper.log_engine package" href="apikeyper.log_engine.html" />
+    <link rel="prev" title="apikeyper.crypt package" href="apikeyper.crypt.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            APIKeyPER
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="apikeyper.html">apikeyper package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="apikeyper.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.config.html">apikeyper.config package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.crypt.html">apikeyper.crypt package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">apikeyper.database package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#module-apikeyper.database">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.log_engine.html">apikeyper.log_engine package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.ui.html">apikeyper.ui package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="apikeyper.utils.html">apikeyper.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="apikeyper.html#module-apikeyper">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">APIKeyPER</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="apikeyper.html">apikeyper package</a></li>
+      <li class="breadcrumb-item active">apikeyper.database package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/apikeyper.database.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="apikeyper-database-package">
+<h1>apikeyper.database package<a class="headerlink" href="#apikeyper-database-package" title="Permalink to this heading"></a></h1>
+<section id="module-apikeyper.database">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-apikeyper.database" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="apikeyper.database.APIKeyDB">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">apikeyper.database.</span></span><span class="sig-name descname"><span class="pre">APIKeyDB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db_file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/database.html#APIKeyDB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.database.APIKeyDB" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>This class provides methods to interact with a SQLite database of API keys. It also supports
+exporting the database contents to JSON and XML formats.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apikeyper.database.APIKeyDB.db_file_path">
+<span class="sig-name descname"><span class="pre">db_file_path</span></span><a class="headerlink" href="#apikeyper.database.APIKeyDB.db_file_path" title="Permalink to this definition"></a></dt>
+<dd><p>The path to the SQLite database file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apikeyper.database.APIKeyDB.conn">
+<span class="sig-name descname"><span class="pre">conn</span></span><a class="headerlink" href="#apikeyper.database.APIKeyDB.conn" title="Permalink to this definition"></a></dt>
+<dd><p>The connection to the SQLite database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/sqlite3.html#sqlite3.Connection" title="(in Python v3.11)">sqlite3.Connection</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="apikeyper.database.APIKeyDB.cursor">
+<span class="sig-name descname"><span class="pre">cursor</span></span><a class="headerlink" href="#apikeyper.database.APIKeyDB.cursor" title="Permalink to this definition"></a></dt>
+<dd><p>The cursor for executing SQL statements.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/sqlite3.html#sqlite3.Cursor" title="(in Python v3.11)">sqlite3.Cursor</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apikeyper.database.APIKeyDB.add_key">
+<span class="sig-name descname"><span class="pre">add_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">added</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">revoked_on</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/database.html#APIKeyDB.add_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.database.APIKeyDB.add_key" title="Permalink to this definition"></a></dt>
+<dd><p>Adds a new API key to the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>service</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The service for the API key.</p></li>
+<li><p><strong>key_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The name of the API key.</p></li>
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The API key.</p></li>
+<li><p><strong>added</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The date the key was added.</p></li>
+<li><p><strong>status</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The status of the API key.</p></li>
+<li><p><strong>revoked_on</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>optional</em>) – The date the key was revoked. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apikeyper.database.APIKeyDB.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/database.html#APIKeyDB.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.database.APIKeyDB.close" title="Permalink to this definition"></a></dt>
+<dd><p>Closes the connection to the SQLite database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apikeyper.database.APIKeyDB.export_db_as_json">
+<span class="sig-name descname"><span class="pre">export_db_as_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">export_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/database.html#APIKeyDB.export_db_as_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.database.APIKeyDB.export_db_as_json" title="Permalink to this definition"></a></dt>
+<dd><p>Exports the contents of the database to a JSON file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>export_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The path to the output JSON file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apikeyper.database.APIKeyDB.export_db_as_xml">
+<span class="sig-name descname"><span class="pre">export_db_as_xml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">export_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/database.html#APIKeyDB.export_db_as_xml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.database.APIKeyDB.export_db_as_xml" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apikeyper.database.APIKeyDB.list_keys_for_service">
+<span class="sig-name descname"><span class="pre">list_keys_for_service</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/database.html#APIKeyDB.list_keys_for_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.database.APIKeyDB.list_keys_for_service" title="Permalink to this definition"></a></dt>
+<dd><p>Lists all API keys for a specific service.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>service</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The service to list keys for.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of tuples representing the API keys for the service.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="apikeyper.database.APIKeyDB.list_services">
+<span class="sig-name descname"><span class="pre">list_services</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/apikeyper/database.html#APIKeyDB.list_services"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#apikeyper.database.APIKeyDB.list_services" title="Permalink to this definition"></a></dt>
+<dd><p>Lists all unique services in the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of all unique services.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="apikeyper.crypt.html" class="btn btn-neutral float-left" title="apikeyper.crypt package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="apikeyper.log_engine.html" class="btn btn-neutral float-right" title="apikeyper.log_engine package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
