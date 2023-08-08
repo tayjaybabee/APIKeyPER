@@ -11,6 +11,15 @@ import os
 import shutil
 import importlib
 from cryptography.fernet import Fernet
+
+
+from apikeyper.log_engine import LOG_DEVICE as ROOT_LOGGER
+
+LOGGER = ROOT_LOGGER.get_child()
+LOG = LOGGER.logger
+LOG.debug(f'Starting {LOG.name}')
+
+
 from apikeyper.crypt.encryption_key import (
     EncryptionKey,
 )  # Assuming EncryptionKey is stored in this module

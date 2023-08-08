@@ -1,7 +1,15 @@
 import sqlite3
 import json
 import xml.etree.ElementTree as ET
+from apikeyper.__about__ import __DEFAULT_DATA_DIR__
+from apikeyper.log_engine import Loggable, LOG_DEVICE as ROOT_LOGGER
 
+
+logger = ROOT_LOGGER.get_child()
+log = logger.logger
+
+DEFAULT_DB_FILEPATH = __DEFAULT_DATA_DIR__.joinpath('apikeyper.db')
+log.debug(f'Default DB filepath is {DEFAULT_DB_FILEPATH}')
 
 """
 This module defines a class, APIKeyDB, for managing API keys stored in a SQLite database.
@@ -19,13 +27,16 @@ class APIKeyDB:
         cursor (sqlite3.Cursor): The cursor for executing SQL statements.
     """
 
-    def __init__(self, db_file_path):
+    def __init__(self, db_file_path=None):
         """
         Initializes the APIKeyDB with a connection to the specified SQLite database file.
 
         Args:
             db_file_path (str): The path to the SQLite database file.
         """
+        if db_file_path is None:
+            db_file_path = DEFAULT_DB_FILEPATH
+
         print(db_file_path)
 
         self.db_file_path = db_file_path

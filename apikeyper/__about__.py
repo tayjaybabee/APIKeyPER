@@ -6,13 +6,14 @@ File:
   Filepath: apikeyper
 """
 from appdirs import user_data_dir
+from pathlib import Path
 
 
 __PROG__ = "APIKeyPER"
 __DESCRIPTION__ = "APIKeyPER - API Key Personal Encrypted Reliquary"
 
 __AUTHOR__ = "Inspyre Softworks"
-__DEFAULT_DATA_DIR__ = user_data_dir(__PROG__, __AUTHOR__)
+__DEFAULT_DATA_DIR__ = Path(user_data_dir(__PROG__, __AUTHOR__))
 
 
 """

@@ -11,6 +11,10 @@ import importlib
 import os
 
 from cryptography.fernet import Fernet
+from apikeyper.__about__ import __DEFAULT_DATA_DIR__ as DEFAULT_DATA_DIR
+
+
+DEFAULT_KEY_FILEPATH = os.path.join(DEFAULT_DATA_DIR, 'key.pem')
 
 
 def get_key_from_file(key_file):
