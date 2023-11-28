@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-cryptography = "^40.0.2"
+cryptography = "^41.0.6"
 appdirs = "^1.4.4"
 keyring = "^23.13.1"
 rich = "^13.4.2"
