@@ -9,70 +9,69 @@ File:
 import json
 import os
 import shutil
-import importlib
 from cryptography.fernet import Fernet
-
-
 from apikeyper.log_engine import LOG_DEVICE as ROOT_LOGGER
+from pathlib import Path
+from apikeyper.database import DEFAULT_DB_FILEPATH
 
+# Initialize logger
 LOGGER = ROOT_LOGGER.get_child()
 LOG = LOGGER.logger
-LOG.debug(f'Starting {LOG.name}')
-
-
-from apikeyper.crypt.encryption_key import (
-    EncryptionKey,
-)  # Assuming EncryptionKey is stored in this module
 
 
 class CryptDB:
     """
-    A class that represents an encrypted database. This database supports encryption using Fernet symmetric encryption.
+    Manages an encrypted database using Fernet symmetric encryption.
     """
+
+    DEFAULT_FILEPATH = DEFAULT_DB_FILEPATH
 
     def __init__(self, file_path=None, encryption_key=None):
         """
         Initialize a new CryptDB instance.
 
         Args:
-            file_path (str, optional): The path to the file that stores the encrypted database.
-                Defaults to None, which will use a default path based on appdirs.
-            encryption_key (EncryptionKey, optional): The encryption key used for encrypting and decrypting the database.
-                Defaults to None, which will generate a new key.
+            file_path (Path, optional): Path to the file storing the encrypted database.
+            encryption_key (EncryptionKey, optional): Encryption key for the database.
         """
+        try:
+            self.file_path = file_path or self.DEFAULT_FILEPATH
 
-        if file_path is None:
-            # Set a default path using appdirs or any other preferred method
-            # For this example, we'll simply set it to 'default_path.db'
-            file_path = "default_path.db"
+            if not self.file_path.parent.exists():
+                self.file_path.parent.mkdir(parents=True, exist_ok=True)
 
-        self.file_path = file_path
+            if encryption_key is None:
+                encryption_key = Fernet.generate_key()
+            self.encryption_key = encryption_key
 
-        # If no encryption key is provided, generate one and store it in a file by default
-        if encryption_key is None:
-            encryption_key = EncryptionKey("file")
+            self.cipher_suite = Fernet(self.encryption_key)
 
-        self.encryption_key = encryption_key
-
-        self.cipher_suite = Fernet(self.encryption_key.key)
-
-        # If the encrypted DB file exists, load and decrypt it
-        if os.path.exists(self.file_path):
-            with open(self.file_path, "rb") as file:
-                encrypted_data = file.read()
-            decrypted_data = self.decrypt(encrypted_data)
-            self.data = json.loads(decrypted_data)
-        else:
-            self.data = {}
+            if self.file_path.exists():
+                with self.file_path.open("rb") as file:
+                    encrypted_data = file.read()
+                decrypted_data = self.decrypt(encrypted_data)
+                self.data = json.loads(decrypted_data)
+            else:
+                self.data = {}
+                self.save()  # Initialize the file with an empty database
+        except Exception as e:
+            LOG.error(f"Error initializing CryptDB: {e}")
+            raise
 
     def save(self):
         """
         Save the current database state to the encrypted file.
-        """
 
-        with open(self.file_path, "wb") as file:
-            encrypted_data = self.encrypt(json.dumps(self.data))
-            file.write(encrypted_data)
+        Raises:
+            IOError: If there is an error saving the file.
+        """
+        try:
+            with open(self.file_path, "wb") as file:
+                encrypted_data = self.encrypt(json.dumps(self.data))
+                file.write(encrypted_data)
+        except IOError as e:
+            LOG.error(f"Error saving the database: {e}")
+            raise
 
     def load(self):
         """
@@ -80,19 +79,31 @@ class CryptDB:
 
         Returns:
             dict: The decrypted and deserialized database data.
-        """
 
-        with open(self.file_path, "rb") as file:
-            encrypted_data = file.read()
-        decrypted_data = self.decrypt(encrypted_data)
-        return json.loads(decrypted_data)
+        Raises:
+            IOError: If there is an error loading the file.
+        """
+        try:
+            with open(self.file_path, "rb") as file:
+                encrypted_data = file.read()
+            decrypted_data = self.decrypt(encrypted_data)
+            return json.loads(decrypted_data)
+        except IOError as e:
+            LOG.error(f"Error loading the database: {e}")
+            raise
 
     def delete(self):
         """
         Delete the encrypted database file.
-        """
 
-        os.remove(self.file_path)
+        Raises:
+            OSError: If there is an error deleting the file.
+        """
+        try:
+            os.remove(self.file_path)
+        except OSError as e:
+            LOG.error(f"Error deleting the database file: {e}")
+            raise
 
     def move(self, new_path):
         """

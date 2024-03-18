@@ -46,6 +46,7 @@ Note:
     manager is initialized and connected to the correct database before use.
 
 """
+from functools import wraps
 
 
 def apikey_required(service_names):
@@ -113,3 +114,55 @@ def apikey_required_class(service_names):
         return cls
 
     return decorator
+
+
+def validate_type(*allowed_types, preferred_type):
+    """
+    A decorator for validating the type of a value passed to a class property setter, with
+    an option to convert to a preferred type if specified.
+
+    Args:
+        preferred_type (type, optional): The preferred type to which values should be converted
+                                          if possible. If None, no conversion is attempted.
+        *allowed_types: Variable length list of allowed types for the property value.
+
+    Returns:
+        A decorator function for the property setter.
+
+    Raises:
+        TypeError: If the incoming value does not match one of the allowed types or cannot be
+                   converted to the preferred type.
+
+    Example:
+        >>> class MyClass:
+        ...     @property
+        ...     def my_property(self):
+        ...         return self._my_property
+        ...
+        ...     @my_property.setter
+        ...     @validate_type(int, float, preferred_type=int)
+        ...     def my_property(self, value):
+        ...         self._my_property = value
+        ...
+        >>> obj = MyClass()
+        >>> obj.my_property = 10.5  # This is converted to int and set
+        >>> obj.my_property = "hello"  # This raises TypeError
+    """
+
+    def decorator(func):
+        @wraps(func)
+        def wrapper(self, value):
+            if not isinstance(value, allowed_types):
+                allowed = ', '.join([t.__name__ for t in allowed_types])
+                raise TypeError(f"Value must be of type {allowed}, got type {type(value).__name__}")
+
+            if preferred_type and not isinstance(value, preferred_type):
+                try:
+                    value = preferred_type(value)
+                except Exception as e:
+                    raise TypeError(f"Could not convert value to preferred type {preferred_type.__name__}: {e}")
+
+            return func(self, value)
+        return wrapper
+    return decorator
+

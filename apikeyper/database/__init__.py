@@ -3,6 +3,9 @@ import json
 import xml.etree.ElementTree as ET
 from apikeyper.__about__ import __DEFAULT_DATA_DIR__
 from apikeyper.log_engine import Loggable, LOG_DEVICE as ROOT_LOGGER
+from apikeyper.utils.descriptors import RestrictedSetter
+from apikeyper.utils.decorators import validate_type
+from pathlib import Path
 
 
 logger = ROOT_LOGGER.get_child()
@@ -143,3 +146,26 @@ class APIKeyDB:
 
         tree = ET.ElementTree(root)
         tree.write(export_path)
+
+
+class APIKeyManager:
+
+    __db_filepath = DEFAULT_DB_FILEPATH
+
+    db = RestrictedSetter('db', None, allowed_types=APIKeyDB)
+
+    def __init__(self, db_file_path=None):
+        self.db_filepath = db_file_path or self.__db_filepath
+
+        self.db = APIKeyDB(self.db_filepath)
+
+        self.db = db_file_path or self.db
+
+    @property
+    def db_filepath(self):
+        return self.__db_filepath
+
+    @db_filepath.setter
+    @validate_type((Path, str), preferred_type=Path)
+    def db_filepath(self, new):
+        self.__db_filepath = new
