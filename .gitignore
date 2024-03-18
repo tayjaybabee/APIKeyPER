@@ -97,3 +97,5 @@ fabric.properties
 # *.ipr
 
 *.log
+/.idea/
+*.db
