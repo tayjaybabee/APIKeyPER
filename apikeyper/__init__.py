@@ -46,7 +46,19 @@ class APIKeyPER:
         Returns:
             None
         """
-        self.db.add_key(service, api_key)
+        from datetime import datetime
+        import uuid
+        
+        # Generate unique key name 
+        key_name = f"{service}_key_{uuid.uuid4().hex[:8]}"
+        
+        # Generate timestamp
+        added = datetime.now().isoformat()
+        
+        # Set status as active
+        status = "active"
+        
+        self.db.add_key(service, key_name, api_key, added, status)
 
     def get_key(self, service):
         """

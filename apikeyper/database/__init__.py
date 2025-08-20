@@ -94,18 +94,49 @@ class APIKeyDB:
         self.cursor.execute("SELECT DISTINCT service FROM apikeys")
         return [service[0] for service in self.cursor.fetchall()]
 
+    def get_key(self, service):
+        """
+        Retrieves the first active API key for a specific service from the database.
+
+        Args:
+            service (str): The service to retrieve the key for.
+
+        Returns:
+            tuple or None: A tuple representing the API key row (service, key_name, added, key, status, revoked_on)
+                          or None if no key is found.
+        """
+        self.cursor.execute(
+            "SELECT * FROM apikeys WHERE service=? AND status='active' ORDER BY added DESC LIMIT 1", 
+            (service,)
+        )
+        return self.cursor.fetchone()
+
+    def delete_key(self, service):
+        """
+        Deletes all API keys for a specific service from the database.
+
+        Args:
+            service (str): The service to delete keys for.
+
+        Returns:
+            None
+        """
+        self.cursor.execute("DELETE FROM apikeys WHERE service=?", (service,))
+        self.conn.commit()
+
     def close(self):
         """
         Closes the connection to the SQLite database.
         """
         self.conn.close()
 
-    def export_db_as_json(self, export_path):
+    def export_db_as_json(self, export_path, redact_secrets=True):
         """
         Exports the contents of the database to a JSON file.
 
         Args:
             export_path (str): The path to the output JSON file.
+            redact_secrets (bool): Whether to redact API key values. Defaults to True for security.
         """
 
         all_services = self.list_services()
@@ -116,7 +147,7 @@ class APIKeyDB:
                 {
                     "key_name": key[1],
                     "added": key[2],
-                    "key": key[3],
+                    "key": "***REDACTED***" if redact_secrets else key[3],
                     "status": key[4],
                     "revoked_on": key[5],
                 }
@@ -126,7 +157,14 @@ class APIKeyDB:
         with open(export_path, "w") as json_file:
             json.dump(data, json_file, indent=4)
 
-    def export_db_as_xml(self, export_path):
+    def export_db_as_xml(self, export_path, redact_secrets=True):
+        """
+        Exports the contents of the database to an XML file.
+
+        Args:
+            export_path (str): The path to the output XML file.
+            redact_secrets (bool): Whether to redact API key values. Defaults to True for security.
+        """
         root = ET.Element("services")
 
         all_services = self.list_services()
@@ -137,7 +175,7 @@ class APIKeyDB:
                 key_element = ET.SubElement(service_element, "key")
                 ET.SubElement(key_element, "key_name").text = key[1]
                 ET.SubElement(key_element, "added").text = key[2]
-                ET.SubElement(key_element, "key_value").text = key[3]
+                ET.SubElement(key_element, "key_value").text = "***REDACTED***" if redact_secrets else key[3]
                 ET.SubElement(key_element, "status").text = key[4]
                 ET.SubElement(key_element, "revoked_on").text = key[5]
 

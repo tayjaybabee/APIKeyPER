@@ -58,7 +58,9 @@ def apikey_required(service_names):
 
     def decorator(func):
         def wrapper(*args, **kwargs):
-            api_manager = APIKeyPER("default_apikeys.db")
+            from apikeyper import APIKeyPER
+            from pathlib import Path
+            api_manager = APIKeyPER(Path("default_apikeys.db"))
 
             api_keys = {}
             for service_name in service_names:
@@ -71,7 +73,7 @@ def apikey_required(service_names):
                     api_manager.add_key(service_name, user_api_key)
                     api_keys[service_name] = user_api_key
                 else:
-                    api_keys[service_name] = api_key[0]
+                    api_keys[service_name] = api_key[3]  # Get the key field from the tuple
 
             kwargs["api_keys"] = api_keys
             return func(*args, **kwargs)
@@ -93,7 +95,9 @@ def apikey_required_class(service_names):
         original_init = cls.__init__
 
         def new_init(self, *args, **kwargs):
-            api_manager = APIKeyPER("default_apikeys.db")
+            from apikeyper import APIKeyPER
+            from pathlib import Path
+            api_manager = APIKeyPER(Path("default_apikeys.db"))
 
             for service_name in service_names:
                 api_key = api_manager.get_key(service_name)
@@ -105,7 +109,7 @@ def apikey_required_class(service_names):
                     api_manager.add_key(service_name, user_api_key)
                     setattr(cls, service_name.upper() + "_API_KEY", user_api_key)
                 else:
-                    setattr(cls, service_name.upper() + "_API_KEY", api_key[0])
+                    setattr(cls, service_name.upper() + "_API_KEY", api_key[3])  # Get the key field from the tuple
 
             original_init(self, *args, **kwargs)
 
