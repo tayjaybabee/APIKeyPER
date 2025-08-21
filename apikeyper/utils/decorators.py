@@ -141,7 +141,7 @@ def apikey_required_class(service_names: Union[str, List[str]]) -> Callable:
                     api_manager.add_key(service_name, user_api_key)
                     collected_keys[service_name] = user_api_key
                 else:
-                    setattr(cls, service_name.upper() + "_API_KEY", api_key[3])  # Get the key field from the tuple
+                    setattr(cls, f"{service_name.upper()}_API_KEY", api_key[3])
 
 
             original_init(self, *args, **kwargs)
