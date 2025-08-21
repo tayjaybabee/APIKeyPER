@@ -46,7 +46,12 @@ class APIKeyPER:
         Returns:
             None
         """
-        self.db.add_key(service, api_key)
+        from datetime import datetime
+        added = datetime.now().isoformat()
+        # Use the service name as the key_name by default
+        key_name = "default"
+        status = "active"
+        self.db.add_key(service, key_name, api_key, added, status)
 
     def get_key(self, service):
         """

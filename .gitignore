@@ -99,3 +99,6 @@ fabric.properties
 *.log
 /.idea/
 *.db
+__pycache__/
+*.py[cod]
+*$py.class

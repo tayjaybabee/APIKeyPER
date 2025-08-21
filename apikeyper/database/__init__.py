@@ -143,3 +143,33 @@ class APIKeyDB:
 
         tree = ET.ElementTree(root)
         tree.write(export_path)
+
+    def get_key(self, service):
+        """
+        Gets the first API key for a specific service.
+
+        Args:
+            service (str): The service to get the key for.
+
+        Returns:
+            tuple or None: The first key tuple for the service, or None if not found.
+        """
+        self.cursor.execute("SELECT * FROM apikeys WHERE service=? LIMIT 1", (service,))
+        return self.cursor.fetchone()
+
+    def delete_key(self, service, key_name=None):
+        """
+        Deletes API key(s) for a specific service.
+
+        Args:
+            service (str): The service to delete keys for.
+            key_name (str, optional): Specific key name to delete. If None, deletes all keys for the service.
+
+        Returns:
+            None
+        """
+        if key_name:
+            self.cursor.execute("DELETE FROM apikeys WHERE service=? AND key_name=?", (service, key_name))
+        else:
+            self.cursor.execute("DELETE FROM apikeys WHERE service=?", (service,))
+        self.conn.commit()
