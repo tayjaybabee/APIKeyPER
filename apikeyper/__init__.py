@@ -47,8 +47,18 @@ class APIKeyPER:
             status: The status of the API key. Defaults to 'active'.
             added: The date the key was added (ISO8601 format). If None, current UTC time is used.
         """
-        if added is None:
-            added = datetime.utcnow().isoformat()
+        from datetime import datetime
+        import uuid
+        
+        # Generate unique key name 
+        key_name = f"{service}_key_{uuid.uuid4().hex[:8]}"
+        
+        # Generate timestamp
+        added = datetime.now().isoformat()
+        
+        # Set status as active
+        status = "active"
+        
         self.db.add_key(service, key_name, api_key, added, status)
 
     def get_key(self, service: str) -> Optional[str]:

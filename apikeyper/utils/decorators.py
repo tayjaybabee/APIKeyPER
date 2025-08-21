@@ -69,7 +69,10 @@ def apikey_required(service_names: Union[str, List[str]]) -> Callable:
 
     def decorator(func: Callable) -> Callable:
         def wrapper(*args, **kwargs):
-            api_manager = APIKeyPER()
+            from apikeyper import APIKeyPER
+            from pathlib import Path
+            api_manager = APIKeyPER(Path("default_apikeys.db"))
+
 
             api_keys = {}
             for service_name in service_names:
@@ -82,7 +85,8 @@ def apikey_required(service_names: Union[str, List[str]]) -> Callable:
                     api_manager.add_key(service_name, user_api_key)
                     api_keys[service_name] = user_api_key
                 else:
-                    api_keys[service_name] = api_key
+                    api_keys[service_name] = api_key[3]  # Get the key field from the tuple
+
 
             # Only inject api_keys if the function accepts it
             sig = inspect.signature(func)
@@ -120,7 +124,10 @@ def apikey_required_class(service_names: Union[str, List[str]]) -> Callable:
         original_init = cls.__init__
 
         def new_init(self, *args, **kwargs):
-            api_manager = APIKeyPER()
+            from apikeyper import APIKeyPER
+            from pathlib import Path
+            api_manager = APIKeyPER(Path("default_apikeys.db"))
+
 
             # Collect API keys and ensure they're available
             collected_keys = {}
@@ -134,20 +141,8 @@ def apikey_required_class(service_names: Union[str, List[str]]) -> Callable:
                     api_manager.add_key(service_name, user_api_key)
                     collected_keys[service_name] = user_api_key
                 else:
-                    collected_keys[service_name] = api_key
+                    setattr(cls, f"{service_name.upper()}_API_KEY", api_key[3])
 
-            # Inspect original __init__ signature to see if we should inject service parameters
-            sig = inspect.signature(original_init)
-            param_names = list(sig.parameters.keys())[1:]  # Skip 'self'
-            
-            # Inject service keys into kwargs if they match parameter names and aren't already provided
-            for service_name in service_names:
-                if service_name in param_names and service_name not in kwargs:
-                    kwargs[service_name] = collected_keys[service_name]
-
-            # Set instance attributes for each service key
-            for service_name in service_names:
-                setattr(self, f'{service_name}_key', collected_keys[service_name])
 
             original_init(self, *args, **kwargs)
 
