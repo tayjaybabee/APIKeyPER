@@ -1,7 +1,13 @@
 import sqlite3
 import json
 import xml.etree.ElementTree as ET
-from apikeyper.__about__ import __DEFAULT_DATA_DIR__
+try:
+    from apikeyper.__about__ import __DEFAULT_DATA_DIR__
+except ImportError:
+    # Fallback if dependencies not available
+    from pathlib import Path
+    __DEFAULT_DATA_DIR__ = Path.home() / ".apikeyper"
+
 from apikeyper.log_engine import Loggable, LOG_DEVICE as ROOT_LOGGER
 
 
@@ -100,13 +106,15 @@ class APIKeyDB:
         """
         self.conn.close()
 
-    def export_db_as_json(self, export_path):
+    def export_db_as_json(self, export_path, include_secrets=False):
         """
         Exports the contents of the database to a JSON file.
 
         Args:
             export_path (str): The path to the output JSON file.
+            include_secrets (bool): Whether to include actual secret values. Defaults to False for security.
         """
+        from apikeyper.utils.secret import redact
 
         all_services = self.list_services()
         data = {}
@@ -116,7 +124,7 @@ class APIKeyDB:
                 {
                     "key_name": key[1],
                     "added": key[2],
-                    "key": key[3],
+                    "key": key[3] if include_secrets else redact(key[3]),
                     "status": key[4],
                     "revoked_on": key[5],
                 }
@@ -126,7 +134,16 @@ class APIKeyDB:
         with open(export_path, "w") as json_file:
             json.dump(data, json_file, indent=4)
 
-    def export_db_as_xml(self, export_path):
+    def export_db_as_xml(self, export_path, include_secrets=False):
+        """
+        Exports the contents of the database to an XML file.
+
+        Args:
+            export_path (str): The path to the output XML file.
+            include_secrets (bool): Whether to include actual secret values. Defaults to False for security.
+        """
+        from apikeyper.utils.secret import redact
+        
         root = ET.Element("services")
 
         all_services = self.list_services()
@@ -137,7 +154,8 @@ class APIKeyDB:
                 key_element = ET.SubElement(service_element, "key")
                 ET.SubElement(key_element, "key_name").text = key[1]
                 ET.SubElement(key_element, "added").text = key[2]
-                ET.SubElement(key_element, "key_value").text = key[3]
+                key_value = key[3] if include_secrets else redact(key[3])
+                ET.SubElement(key_element, "key_value").text = key_value
                 ET.SubElement(key_element, "status").text = key[4]
                 ET.SubElement(key_element, "revoked_on").text = key[5]
 

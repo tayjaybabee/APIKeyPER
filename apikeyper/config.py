@@ -15,7 +15,8 @@ if TYPE_CHECKING:
 try:
     from apikeyper.__about__ import __DEFAULT_DATA_DIR__
 except ImportError:
-    # Fallback if appdirs not available
+    # Fallback if dependencies not available
+    from pathlib import Path
     __DEFAULT_DATA_DIR__ = Path.home() / ".apikeyper"
 
 
