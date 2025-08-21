@@ -122,7 +122,7 @@ class Logger:
             show_level=True,
             markup=True,
             rich_tracebacks=True,
-            tracebacks_show_locals=True,
+            tracebacks_show_locals=False,
         )
         formatter = CustomFormatter(
             "[green][bold][%(name)s][bold][/green] - %(message)s"
@@ -233,7 +233,6 @@ def _get_parent_logging_device():
     """
     caller_frame = inspect.currentframe().f_back
     caller_locals = caller_frame.f_locals
-    print(caller_locals)
 
     if "logger" in caller_locals:
         return caller_locals["logger"]
