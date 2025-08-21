@@ -84,3 +84,16 @@ class Config:
         """
         from dataclasses import replace
         return replace(self, backend=backend)
+    
+    def with_db_path(self, db_file_path):
+        """
+        Create a new Config instance with a different database path.
+        
+        Args:
+            db_file_path: The new database file path
+            
+        Returns:
+            New Config instance with the database path set
+        """
+        from dataclasses import replace
+        return replace(self, db_file_path=db_file_path)

@@ -127,7 +127,7 @@ class TestAPIKeyPERIntegration:
         self.api_manager.add_key("github", "secret_token")
         
         # Export to JSON (should be redacted by default)
-        json_path = self.temp_dir / "export.json"
+        json_path = Path(self.temp_dir) / "export.json"
         self.api_manager.export_db_as_json(str(json_path))
         
         # Check that the export is redacted
@@ -155,7 +155,7 @@ class TestAPIKeyPERIntegration:
         api_manager.add_key("github", "secret_token")
         
         # Export to JSON (should include secrets)
-        json_path = self.temp_dir / "export_with_secrets.json"
+        json_path = Path(self.temp_dir) / "export_with_secrets.json"
         api_manager.export_db_as_json(str(json_path))
         
         # Check that the export includes the key_id (not the actual secret since we store key_id in DB)

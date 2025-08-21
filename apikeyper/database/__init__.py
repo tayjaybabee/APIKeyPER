@@ -191,3 +191,30 @@ class APIKeyDB:
         else:
             self.cursor.execute("DELETE FROM apikeys WHERE service=?", (service,))
         self.conn.commit()
+
+    def get_all_keys_for_service(self, service):
+        """
+        Retrieve all key records for a specific service.
+        
+        Args:
+            service (str): The service name
+            
+        Returns:
+            list: List of key record tuples
+        """
+        self.cursor.execute("SELECT * FROM apikeys WHERE service=?", (service,))
+        return self.cursor.fetchall()
+
+    def get_key_by_name(self, service, key_name):
+        """
+        Retrieve a specific key record by service and key name.
+        
+        Args:
+            service (str): The service name
+            key_name (str): The key name
+            
+        Returns:
+            tuple or None: Key record tuple, or None if not found
+        """
+        self.cursor.execute("SELECT * FROM apikeys WHERE service=? AND key_name=?", (service, key_name))
+        return self.cursor.fetchone()
