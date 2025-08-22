@@ -2,10 +2,12 @@ from __future__ import annotations
 
 from typing import Optional
 from datetime import datetime
+from dataclasses import astuple
 from apikeyper.database import APIKeyDB, DEFAULT_DB_FILEPATH
 from apikeyper.__about__ import __DEFAULT_DATA_DIR__ as DEFAULT_DATA_DIR
 from pathlib import Path
 import os
+import uuid
 
 
 """
@@ -36,42 +38,47 @@ class APIKeyPER:
 
         self.db = APIKeyDB(db_file_path)
 
-    def add_key(self, service: str, api_key: str, key_name: str = 'default', status: str = 'active', added: Optional[str] = None) -> None:
+    def add_key(
+        self,
+        service: str,
+        api_key: str,
+        key_name: Optional[str] = None,
+        status: str = "active",
+        added: Optional[str] = None,
+    ) -> None:
         """
         Add a key to database associated with a service.
 
         Parameters:
             service: The service the API key is associated with.
             api_key: The API key associated with the given service.
-            key_name: The name of the API key. Defaults to 'default'.
+            key_name: Optional name of the API key.
             status: The status of the API key. Defaults to 'active'.
             added: The date the key was added (ISO8601 format). If None, current UTC time is used.
         """
-        from datetime import datetime
-        import uuid
-        
-        # Generate unique key name 
-        key_name = f"{service}_key_{uuid.uuid4().hex[:8]}"
-        
-        # Generate timestamp
-        added = datetime.now().isoformat()
-        
-        # Set status as active
-        status = "active"
-        
+        key_name = key_name or f"{service}_key_{uuid.uuid4().hex[:8]}"
+        added = added or datetime.utcnow().isoformat()
         self.db.add_key(service, key_name, api_key, added, status)
 
-    def get_key(self, service: str) -> Optional[str]:
+    def get_key(
+        self,
+        service: str,
+        key_name: Optional[str] = None,
+        only_active: bool = True,
+    ) -> Optional[tuple]:
         """
         Retrieves an API key for a specific service from the database.
 
         Parameters:
             service: The service to retrieve the key for.
+            key_name: The specific key name to retrieve. If None, gets the most recent key.
+            only_active: Whether to only return active keys. Defaults to True.
 
         Returns:
-            The retrieved API key, or None if not found.
+            A tuple representing the API key data, or None if not found.
         """
-        return self.db.get_key(service)
+        record = self.db.get_key(service, key_name, only_active)
+        return astuple(record) if record else None
 
     def delete_key(self, service: str, key_name: Optional[str] = None) -> None:
         """
