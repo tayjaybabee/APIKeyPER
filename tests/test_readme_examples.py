@@ -30,7 +30,7 @@ class TestREADMEExamples:
         # Retrieve an API key
         github_key_data = api.get_key("github")
         assert github_key_data is not None
-        actual_key = github_key_data[3]  # The key is at index 3 in the tuple
+        actual_key = github_key_data.key
         assert actual_key == "ghp_your_github_token_here"
 
         # List all services with stored keys

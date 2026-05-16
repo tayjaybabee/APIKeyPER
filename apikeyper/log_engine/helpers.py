@@ -2,6 +2,8 @@ import logging
 import re
 from logging import Formatter
 
+logger = logging.getLogger(__name__)
+
 
 """
 This module contains utility functions and classes for handling logging and
@@ -61,40 +63,40 @@ def is_number(string, force_integer=False, rounding=None):
     """
     num = None
 
-    print(f"Received string {string}")
+    logger.debug("Received string %s", string)
 
     if isinstance(string, (int, float)):
-        print("Detected that received string is actually an integer or float...")
+        logger.debug("Detected that received string is actually an integer or float...")
         num = string
-        print(f'Num is now "{num}" after detecting that "string" is indeed a string.')
+        logger.debug('Num is now "%s" after detecting that "string" is indeed a string.', num)
     elif isinstance(string, str):
-        print("Detected that received string is indeed a string.")
+        logger.debug("Detected that received string is indeed a string.")
 
         try:
-            print("Attempting to convert the string to a float...")
+            logger.debug("Attempting to convert the string to a float...")
             # Try to convert the string to a float.
             num = float(string)
-            print(
-                f"After conversion attempt from string to float, {num} is {type(num)}"
+            logger.debug(
+                "After conversion attempt from string to float, %s is %s", num, type(num)
             )
 
             # If rounding is specified, round the number.
             if rounding is not None and isinstance(rounding, int) and rounding >= 0:
-                print("Detected parameters to return the number rounded.")
+                logger.debug("Detected parameters to return the number rounded.")
                 num = round(num, rounding)
-                print(f"After rounding, the number is {num}")
+                logger.debug("After rounding, the number is %s", num)
 
         except ValueError as e:
-            print(e)
+            logger.debug("%s", e)
             # If a ValueError is raised, the string is not a number.
             num = string
 
     if force_integer and not isinstance(num, str):
-        print("Detecting that we were instructed to return an integer.")
+        logger.debug("Detecting that we were instructed to return an integer.")
         num = int(num)
-        print(f"After converting the number to an integer it is now; {num}")
+        logger.debug("After converting the number to an integer it is now; %s", num)
 
-    print(f"Returning number which is {num}")
+    logger.debug("Returning number which is %s", num)
     return num
 
 

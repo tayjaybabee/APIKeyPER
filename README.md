@@ -30,7 +30,7 @@ api.add_key("aws", "AKIAIOSFODNN7EXAMPLE")
 # Retrieve an API key
 github_key_data = api.get_key("github")
 if github_key_data:
-    actual_key = github_key_data[3]  # The key is at index 3 in the tuple
+    actual_key = github_key_data.key
     print(f"GitHub API Key: {actual_key}")
 
 # List all services with stored keys
