@@ -1,5 +1,5 @@
 from typing import Callable
-from argparse import Namspace
+from argparse import Namespace
 
 
 COMMAND_HANDLERS: dict[str, Callable[[Namespace], int]] = {}

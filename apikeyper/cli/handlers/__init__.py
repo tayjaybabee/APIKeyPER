@@ -1,17 +1,5 @@
-"""
+from .add import do_add
+from .delete import do_delete
+from .get import do_get
 
-
-Author: 
-    Inspyre Softworks
-
-Project:
-    APIKeyPER
-
-File: 
-    apikeyper/cli/handlers/__init__.py
- 
-
-Description:
-    
-
-"""
+__all__ = ["do_add", "do_delete", "do_get"]

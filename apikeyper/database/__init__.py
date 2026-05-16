@@ -7,7 +7,7 @@ from typing import Optional
 from dataclasses import dataclass
 from apikeyper.__about__ import __DEFAULT_DATA_DIR__
 from apikeyper.log_engine import Loggable, LOG_DEVICE as ROOT_LOGGER
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 logger = ROOT_LOGGER.get_child()
@@ -29,6 +29,25 @@ class APIKey:
     key: str
     status: str
     revoked_on: Optional[str]
+
+    def _values(self) -> tuple[str, str, str, str, str, Optional[str]]:
+        return (
+            self.service,
+            self.key_name,
+            self.added,
+            self.key,
+            self.status,
+            self.revoked_on,
+        )
+
+    def __iter__(self):
+        return iter(self._values())
+
+    def __getitem__(self, index: int):
+        return self._values()[index]
+
+    def __len__(self) -> int:
+        return len(self._values())
 
 
 class APIKeyDB:
@@ -107,8 +126,7 @@ class APIKeyDB:
                 The service to delete keys for.
 
         """
-        self.cursor.execute("DELETE FROM apikeys WHERE service=?", (service,))
-        self.conn.commit()
+        self.delete_key(service)
 
     def get_key(
         self,
@@ -250,7 +268,7 @@ class APIKeyDB:
             self,
             service: str,
             key_name: str,
-            revoked_on: str = None
+            revoked_on: Optional[str] = None
     ) -> None:
         matching_key = self.get_key(service, key_name)
         if not matching_key:
@@ -261,7 +279,7 @@ class APIKeyDB:
             )
 
         if revoked_on is None:
-            revoked_on = datetime.now().isoformat()
+            revoked_on = datetime.now(timezone.utc).isoformat()
 
         self.cursor.execute(
             "UPDATE apikeys SET revoked_on=? WHERE service=? AND key_name=?", (revoked_on, service, key_name)
@@ -272,4 +290,3 @@ class APIKeyDB:
         )
 
         self.conn.commit()
-

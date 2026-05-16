@@ -84,8 +84,8 @@ class Arguments(ArgumentParser):
             required=True
         )
 
-        self.__get_sp.add_argument(
-            'y', '--yes',
+        self.__del_sp.add_argument(
+            '-y', '--yes',
             action='store_true',
             help='If set, will not prompt for confirmation.',
         )
@@ -131,11 +131,12 @@ class Arguments(ArgumentParser):
         self.__build_get_cmd__()
 
     def __init__(self, *args, **kwargs):
-        super().__init__(description='APIKeyPER - API Key Personal Encrypted Reliquary')
+        super().__init__(*args, description='APIKeyPER - API Key Personal Encrypted Reliquary', **kwargs)
         self.__parsed = None
         self.__p_subparsers = None
         self.__add_sp = None
         self.__del_sp = None
+        self.__get_sp = None
         self.__build_subparsers__()
 
     def parse(self, force=False):

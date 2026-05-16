@@ -1,9 +1,8 @@
 from __future__ import annotations
 
 from typing import Optional
-from datetime import datetime
-from dataclasses import astuple
-from apikeyper.database import APIKeyDB, DEFAULT_DB_FILEPATH
+from datetime import datetime, timezone
+from apikeyper.database import APIKey, APIKeyDB, DEFAULT_DB_FILEPATH
 from apikeyper.__about__ import __DEFAULT_DATA_DIR__ as DEFAULT_DATA_DIR
 from pathlib import Path
 import os
@@ -57,7 +56,7 @@ class APIKeyPER:
             added: The date the key was added (ISO8601 format). If None, current UTC time is used.
         """
         key_name = key_name or f"{service}_key_{uuid.uuid4().hex[:8]}"
-        added = added or datetime.utcnow().isoformat()
+        added = added or datetime.now(timezone.utc).isoformat()
         self.db.add_key(service, key_name, api_key, added, status)
 
     def get_key(
@@ -65,7 +64,7 @@ class APIKeyPER:
         service: str,
         key_name: Optional[str] = None,
         only_active: bool = True,
-    ) -> Optional[tuple]:
+    ) -> Optional[APIKey]:
         """
         Retrieves an API key for a specific service from the database.
 
@@ -75,10 +74,9 @@ class APIKeyPER:
             only_active: Whether to only return active keys. Defaults to True.
 
         Returns:
-            A tuple representing the API key data, or None if not found.
+            An APIKey dataclass instance representing the API key data, or None if not found.
         """
-        record = self.db.get_key(service, key_name, only_active)
-        return astuple(record) if record else None
+        return self.db.get_key(service, key_name, only_active)
 
     def delete_key(self, service: str, key_name: Optional[str] = None) -> None:
         """
