@@ -122,3 +122,4 @@ wheels/
 .installed.cfg
 *.egg
 *.lock
+poetry.lock
