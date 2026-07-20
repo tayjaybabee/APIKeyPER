@@ -84,8 +84,8 @@ class Arguments(ArgumentParser):
             required=True
         )
 
-        self.__get_sp.add_argument(
-            'y', '--yes',
+        self.__del_sp.add_argument(
+            '-y', '--yes',
             action='store_true',
             help='If set, will not prompt for confirmation.',
         )
@@ -118,6 +118,35 @@ class Arguments(ArgumentParser):
             help='Name of the API key (unique, within the service).',
         )
 
+    def __build_revoke_cmd__(self):
+        """
+        Builds the revoke command parser. Internal use only.
+        """
+        if not self.__p_subparsers:
+            raise RuntimeError('Subparsers not built.')
+
+        if self.__revoke_sp:
+            raise RuntimeError('"revoke" command already built.')
+
+        self.__revoke_sp = self.__p_subparsers.add_parser(
+            'revoke',
+            help='Revoke an API key for a service without deleting it.'
+        )
+
+        self.__revoke_sp.add_argument(
+            '--service',
+            type=str,
+            help='Name of the service.',
+            required=True
+        )
+
+        self.__revoke_sp.add_argument(
+            '--key-name',
+            type=str,
+            help='Name of the API key (unique, within the service).',
+            required=True
+        )
+
     def __build_subparsers__(self):
         self.__p_subparsers = self.add_subparsers(
             dest='command',
@@ -129,6 +158,7 @@ class Arguments(ArgumentParser):
         self.__build_add_cmd__()
         self.__build_del_cmd__()
         self.__build_get_cmd__()
+        self.__build_revoke_cmd__()
 
     def __init__(self, *args, **kwargs):
         super().__init__(description='APIKeyPER - API Key Personal Encrypted Reliquary')
@@ -136,6 +166,8 @@ class Arguments(ArgumentParser):
         self.__p_subparsers = None
         self.__add_sp = None
         self.__del_sp = None
+        self.__get_sp = None
+        self.__revoke_sp = None
         self.__build_subparsers__()
 
     def parse(self, force=False):

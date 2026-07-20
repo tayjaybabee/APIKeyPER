@@ -15,6 +15,7 @@ import pytest
 import tempfile
 from pathlib import Path
 from apikeyper import APIKeyPER
+from datetime import datetime, timedelta
 
 
 class TestAPIKeyPER:
@@ -158,6 +159,73 @@ class TestAPIKeyPER:
         result = api.get_key("test_service")
         assert result is not None
         assert result[3] == "new_key"
+
+    def test_get_key_returns_most_recently_added_active_key(self, tmp_path):
+        """When a service has multiple active keys, get_key(key_name=None) returns the one with the latest `added` timestamp, not necessarily the last one inserted."""
+        db_path = tmp_path / "test.db"
+        api = APIKeyPER(db_path)
+
+        earlier = (datetime.utcnow() - timedelta(days=1)).isoformat()
+        later = datetime.utcnow().isoformat()
+
+        # Insert the earlier-timestamped key second, to prove ordering follows `added`, not insertion order.
+        api.add_key("test_service", "later_key", key_name="later", added=later)
+        api.add_key("test_service", "earlier_key", key_name="earlier", added=earlier)
+
+        result = api.get_key("test_service")
+        assert result is not None
+        assert result[3] == "later_key"
+
+    def test_delete_key_without_key_name_deletes_all_keys_for_service(self, tmp_path):
+        """delete_key(service) with no key_name removes every key for that service, not just one."""
+        db_path = tmp_path / "test.db"
+        api = APIKeyPER(db_path)
+
+        api.add_key("test_service", "key_one", key_name="one")
+        api.add_key("test_service", "key_two", key_name="two")
+        assert len(api.db.list_keys_for_service("test_service")) == 2
+
+        api.delete_key("test_service")
+
+        assert api.db.list_keys_for_service("test_service") == []
+        assert api.get_key("test_service") is None
+
+    def test_revoke_key_marks_inactive_without_deleting(self, tmp_path):
+        """revoke_key sets status to 'revoked' and records revoked_on, but leaves the row in place."""
+        db_path = tmp_path / "test.db"
+        api = APIKeyPER(db_path)
+
+        api.add_key("test_service", "test_key_123", key_name="primary")
+        api.revoke_key("test_service", "primary")
+
+        # Revoked keys are no longer returned by the default active-only lookup.
+        assert api.get_key("test_service", key_name="primary") is None
+
+        # But the row still exists and reflects the revocation.
+        result = api.get_key("test_service", key_name="primary", only_active=False)
+        assert result is not None
+        assert result[3] == "test_key_123"  # key material preserved
+        assert result[4] == "revoked"       # status
+        assert result[5] is not None        # revoked_on
+
+    def test_revoke_key_missing_raises(self, tmp_path):
+        """revoke_key raises ValueError for a key that doesn't exist."""
+        db_path = tmp_path / "test.db"
+        api = APIKeyPER(db_path)
+
+        with pytest.raises(ValueError):
+            api.revoke_key("test_service", "nonexistent")
+
+    def test_revoke_key_twice_raises(self, tmp_path):
+        """revoke_key raises a distinct 'already revoked' ValueError on a second call, not 'not found' (revoked keys must still be found by the already-active-only lookup)."""
+        db_path = tmp_path / "test.db"
+        api = APIKeyPER(db_path)
+
+        api.add_key("test_service", "test_key_123", key_name="primary")
+        api.revoke_key("test_service", "primary")
+
+        with pytest.raises(ValueError, match="already revoked"):
+            api.revoke_key("test_service", "primary")
 
     def test_database_persistence(self, tmp_path):
         """Test that data persists across APIKeyPER instances."""

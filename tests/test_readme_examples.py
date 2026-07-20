@@ -37,8 +37,16 @@ class TestREADMEExamples:
         services = api.list_services()
         assert len(services) == 3
         assert "github" in services
-        assert "openai" in services  
+        assert "openai" in services
         assert "aws" in services
+
+        # Revoke a key (marks it inactive without deleting the record)
+        api.add_key("stripe", "sk_test_your_stripe_key_here", key_name="primary")
+        api.revoke_key("stripe", "primary")
+        assert api.get_key("stripe", key_name="primary") is None  # revoked keys are inactive
+        revoked_key_data = api.get_key("stripe", key_name="primary", only_active=False)
+        assert revoked_key_data is not None
+        assert revoked_key_data[4] == "revoked"
 
         # Delete a key
         api.delete_key("aws")
@@ -46,7 +54,7 @@ class TestREADMEExamples:
         # Verify deletion
         services_after_delete = api.list_services()
         assert "aws" not in services_after_delete
-        assert len(services_after_delete) == 2
+        assert len(services_after_delete) == 3
 
     def test_function_decorator_example(self, tmp_path):
         """Test the function decorator example from README."""

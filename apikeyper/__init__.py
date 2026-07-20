@@ -90,6 +90,25 @@ class APIKeyPER:
         """
         self.db.delete_key(service, key_name)
 
+    def revoke_key(
+        self,
+        service: str,
+        key_name: str,
+        revoked_on: Optional[str] = None,
+    ) -> None:
+        """
+        Revokes an API key for a specific service, marking it inactive rather than deleting it.
+
+        Parameters:
+            service: The service the key belongs to.
+            key_name: The specific key name to revoke.
+            revoked_on: The date the key was revoked (ISO8601 format). If None, current time is used.
+
+        Raises:
+            ValueError: If the key doesn't exist or is already revoked.
+        """
+        self.db.revoke_key(service, key_name, revoked_on)
+
     def list_services(self) -> list[str]:
         """
         Lists all unique services in the database.

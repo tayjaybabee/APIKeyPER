@@ -10,6 +10,7 @@ organized manner.
 
 - **Add API Keys**: Add API keys associated with a specific service.
 - **Retrieve API Keys**: Retrieve API keys associated with a specific service.
+- **Revoke API Keys**: Mark an API key as revoked without deleting its record.
 - **Delete API Keys**: Delete API keys associated with a specific service.
 - **List Services**: List all the services for which API keys are stored.
 
@@ -36,6 +37,10 @@ if github_key_data:
 # List all services with stored keys
 services = api.list_services()
 print(f"Services with API keys: {services}")
+
+# Revoke a key (marks it inactive without deleting the record; key_name must be given explicitly)
+api.add_key("stripe", "sk_test_your_stripe_key_here", key_name="primary")
+api.revoke_key("stripe", "primary")
 
 # Delete a key
 api.delete_key("aws")
