@@ -19,28 +19,125 @@ class Arguments(ArgumentParser):
         parsed:
             Stores the parsed arguments, private to this class.
     """
-    def __init__(self, *args, **kwargs):
-        super().__init__(description='APIKeyPER - API Key Personal Encrypted Reliquary')
-        self.__parsed = None
-        subparsers = self.add_subparsers(dest='command')
 
-        add_parser = subparsers.add_parser('add')
-        add_parser.add_argument(
-            'service',
-            type=str,
-            help='Name of the service.'
+    def __build_add_cmd__(self):
+        """
+        Builds the add command parser. Internal use only.
+        """
+        if not self.__p_subparsers:
+            raise RuntimeError('Subparsers not built.')
+
+        if self.__add_sp:
+            raise RuntimeError('"add" command already built.')
+
+        self.__add_sp = self.__p_subparsers.add_parser(
+            'add',
+            help='Add an API key for a service.'
         )
 
-        add_parser.add_argument(
-            'api_key',
+        self.__add_sp.add_argument(
+            '--service',
+            type=str,
+            help='Name of the service.',
+            required=True
+        )
+
+        self.__add_sp.add_argument(
+            '--api-key',
+            required=True,
             type=str,
             help='API key for the service.'
         )
 
+        self.__add_sp.add_argument(
+            '--key-name',
+            type=str,
+            help='Name of the API key (unique, within the service).',
+        )
 
+    def __build_del_cmd__(self):
+        """
+        Builds the delete command parser. Internal use only.
+        """
+        if not self.__p_subparsers:
+            raise RuntimeError('Subparsers not built.')
 
+        if self.__del_sp:
+            raise RuntimeError('"delete" command already built.')
 
+        self.__del_sp = self.__p_subparsers.add_parser(
+            'delete',
+            help='Delete an API key for a service.'
+        )
 
+        self.__del_sp.add_argument(
+            '--service',
+            type=str,
+            help='Name of the service.',
+            required=True
+        )
+
+        self.__del_sp.add_argument(
+            '--key-name',
+            type=str,
+            help='Name of the API key (unique, within the service).',
+            required=True
+        )
+
+        self.__del_sp.add_argument(
+            '-y', '--yes',
+            action='store_true',
+            help='If set, will not prompt for confirmation.',
+        )
+
+    def __build_get_cmd__(self):
+        """
+        Builds the get command parser. Internal use only.
+        """
+        if not self.__p_subparsers:
+            raise RuntimeError('Subparsers not built.')
+
+        if self.__get_sp:
+            raise RuntimeError('"get" command already built.')
+
+        self.__get_sp = self.__p_subparsers.add_parser(
+            'get',
+            help='Get an API key for a service.'
+        )
+
+        self.__get_sp.add_argument(
+            '--service',
+            type=str,
+            help='Name of the service.',
+            required=True
+        )
+
+        self.__get_sp.add_argument(
+            '--key-name',
+            type=str,
+            help='Name of the API key (unique, within the service).',
+        )
+
+    def __build_subparsers__(self):
+        self.__p_subparsers = self.add_subparsers(
+            dest='command',
+            help='Subcommand to run.',
+            required=True,
+            parser_class=ArgumentParser,
+        )
+
+        self.__build_add_cmd__()
+        self.__build_del_cmd__()
+        self.__build_get_cmd__()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, description='APIKeyPER - API Key Personal Encrypted Reliquary', **kwargs)
+        self.__parsed = None
+        self.__p_subparsers = None
+        self.__add_sp = None
+        self.__del_sp = None
+        self.__get_sp = None
+        self.__build_subparsers__()
 
     def parse(self, force=False):
         if (self.__parsed and force) or not self.__parsed:
@@ -52,6 +149,7 @@ class Arguments(ArgumentParser):
         return self.__parsed
 
 
+ARGUMENTS = Arguments()
 
 
 """

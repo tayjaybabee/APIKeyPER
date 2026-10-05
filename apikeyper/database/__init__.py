@@ -4,8 +4,10 @@ import sqlite3
 import json
 import xml.etree.ElementTree as ET
 from typing import Optional
+from dataclasses import dataclass
 from apikeyper.__about__ import __DEFAULT_DATA_DIR__
 from apikeyper.log_engine import Loggable, LOG_DEVICE as ROOT_LOGGER
+from datetime import datetime, timezone
 
 
 logger = ROOT_LOGGER.get_child()
@@ -17,6 +19,35 @@ log.debug(f'Default DB filepath is {DEFAULT_DB_FILEPATH}')
 """
 This module defines a class, APIKeyDB, for managing API keys stored in a SQLite database.
 """
+
+
+@dataclass
+class APIKey:
+    service: str
+    key_name: str
+    added: str
+    key: str
+    status: str
+    revoked_on: Optional[str]
+
+    def _values(self) -> tuple[str, str, str, str, str, Optional[str]]:
+        return (
+            self.service,
+            self.key_name,
+            self.added,
+            self.key,
+            self.status,
+            self.revoked_on,
+        )
+
+    def __iter__(self):
+        return iter(self._values())
+
+    def __getitem__(self, index: int):
+        return self._values()[index]
+
+    def __len__(self) -> int:
+        return len(self._values())
 
 
 class APIKeyDB:
@@ -59,12 +90,26 @@ class APIKeyDB:
         Adds a new API key to the database using INSERT OR REPLACE to update existing entries.
 
         Parameters:
-            service: The service for the API key.
-            key_name: The name of the API key.
-            key: The API key.
-            added: The date the key was added (ISO8601 format).
-            status: The status of the API key.
-            revoked_on: The date the key was revoked. Defaults to None.
+            service:
+                The service for the API key.
+
+            key_name:
+                The name of the API key.
+
+            key:
+                The API key.
+
+            added:
+                The date the key was added (ISO8601 format).
+
+            status:
+                The status of the API key.
+
+            revoked_on:
+                The date the key was revoked. Defaults to None.
+
+        Returns:
+            None
         """
         self.cursor.execute(
             "INSERT OR REPLACE INTO apikeys (service, key_name, added, key, status, revoked_on) VALUES (?,?,?,?,?,?)",
@@ -72,35 +117,55 @@ class APIKeyDB:
         )
         self.conn.commit()
 
-    def get_key(self, service: str, key_name: Optional[str] = None, only_active: bool = True) -> Optional[str]:
+    def delete_service(self, service: str) -> None:
+        """
+        Deletes all API keys for a specific service from the database.
+
+        Parameters:
+            service:
+                The service to delete keys for.
+
+        """
+        self.delete_key(service)
+
+    def get_key(
+        self,
+        service: str,
+        key_name: Optional[str] = None,
+        only_active: bool = True,
+    ) -> Optional[APIKey]:
         """
         Retrieves an API key for a specific service from the database.
 
         Parameters:
-            service: The service to retrieve the key for.
-            key_name: The specific key name to retrieve. If None, gets the most recent key.
-            only_active: Whether to only return active keys. Defaults to True.
+            service:
+                The service to retrieve the key for.
+
+            key_name:
+                The specific key name to retrieve. If None, gets the most recent key.
+
+            only_active:
+                Whether to only return active keys. Defaults to True.
 
         Returns:
-            The API key string if found, None otherwise.
+            An APIKey instance if found, None otherwise.
         """
+        query = (
+            "SELECT service, key_name, added, key, status, revoked_on FROM apikeys WHERE service=?"
+        )
+        params = [service]
+
         if key_name is not None:
-            # Get specific key by name
-            query = "SELECT key FROM apikeys WHERE service=? AND key_name=?"
-            params = [service, key_name]
-            if only_active:
-                query += " AND status='active'"
-        else:
-            # Get most recent key for service
-            query = "SELECT key FROM apikeys WHERE service=?"
-            params = [service]
-            if only_active:
-                query += " AND status='active'"
-            query += " ORDER BY added DESC LIMIT 1"
-        
-        self.cursor.execute(query, params)
-        result = self.cursor.fetchone()
-        return result[0] if result else None
+            query += " AND key_name=?"
+            params.append(key_name)
+
+        if only_active:
+            query += " AND status='active'"
+
+        query += " ORDER BY added DESC LIMIT 1"
+
+        row = self.cursor.execute(query, params).fetchone()
+        return APIKey(*row) if row else None
 
     def delete_key(self, service: str, key_name: Optional[str] = None) -> None:
         """
@@ -138,36 +203,6 @@ class APIKeyDB:
         """
         self.cursor.execute("SELECT DISTINCT service FROM apikeys")
         return [service[0] for service in self.cursor.fetchall()]
-
-    def get_key(self, service):
-        """
-        Retrieves the first active API key for a specific service from the database.
-
-        Args:
-            service (str): The service to retrieve the key for.
-
-        Returns:
-            tuple or None: A tuple representing the API key row (service, key_name, added, key, status, revoked_on)
-                          or None if no key is found.
-        """
-        self.cursor.execute(
-            "SELECT * FROM apikeys WHERE service=? AND status='active' ORDER BY added DESC LIMIT 1", 
-            (service,)
-        )
-        return self.cursor.fetchone()
-
-    def delete_key(self, service):
-        """
-        Deletes all API keys for a specific service from the database.
-
-        Args:
-            service (str): The service to delete keys for.
-
-        Returns:
-            None
-        """
-        self.cursor.execute("DELETE FROM apikeys WHERE service=?", (service,))
-        self.conn.commit()
 
     def close(self):
         """
@@ -228,3 +263,30 @@ class APIKeyDB:
 
         tree = ET.ElementTree(root)
         tree.write(export_path)
+
+    def revoke_key(
+            self,
+            service: str,
+            key_name: str,
+            revoked_on: Optional[str] = None
+    ) -> None:
+        matching_key = self.get_key(service, key_name)
+        if not matching_key:
+            raise ValueError(f"Key {key_name} not found for service {service}")
+        elif matching_key.status == 'revoked':
+            raise ValueError(
+                f"Key {key_name} for service {service} is already revoked. Revoked on: {matching_key.revoked_on}"
+            )
+
+        if revoked_on is None:
+            revoked_on = datetime.now(timezone.utc).isoformat()
+
+        self.cursor.execute(
+            "UPDATE apikeys SET revoked_on=? WHERE service=? AND key_name=?", (revoked_on, service, key_name)
+        )
+
+        self.cursor.execute(
+            "UPDATE apikeys SET status='revoked' WHERE service=? AND key_name=?", (service, key_name)
+        )
+
+        self.conn.commit()
