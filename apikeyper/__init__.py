@@ -96,3 +96,26 @@ class APIKeyPER:
             A list of all unique services.
         """
         return self.db.list_services()
+
+    def list_keys_for_service(self, service: str) -> list[tuple]:
+        """
+        Lists all API key records for a specific service.
+
+        Parameters:
+            service: The service to list keys for.
+
+        Returns:
+            A list of tuples representing the API keys for the service.
+        """
+        return self.db.list_keys_for_service(service)
+
+    def revoke_key(self, service: str, key_name: str) -> None:
+        """
+        Revokes an API key for a specific service, marking it inactive
+        without deleting it.
+
+        Parameters:
+            service: The service the key belongs to.
+            key_name: The specific key name to revoke.
+        """
+        self.db.revoke_key(service, key_name)
