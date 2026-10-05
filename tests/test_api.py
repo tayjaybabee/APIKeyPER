@@ -158,6 +158,16 @@ class TestAPIKeyPER:
         assert result is not None
         assert result.key == "new_key"
 
+    def test_revoke_already_revoked_key(self, tmp_path):
+        """Test that revoking a key twice reports that it is already revoked."""
+        api = APIKeyPER(tmp_path / "test.db")
+        api.add_key("test_service", "test_key", key_name="primary")
+
+        api.revoke_key("test_service", "primary")
+
+        with pytest.raises(ValueError, match="already revoked"):
+            api.revoke_key("test_service", "primary")
+
     def test_database_persistence(self, tmp_path):
         """Test that data persists across APIKeyPER instances."""
         db_path = tmp_path / "test.db"
