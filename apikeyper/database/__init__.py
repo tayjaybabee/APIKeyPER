@@ -270,7 +270,7 @@ class APIKeyDB:
             key_name: str,
             revoked_on: Optional[str] = None
     ) -> None:
-        matching_key = self.get_key(service, key_name)
+        matching_key = self.get_key(service, key_name, only_active=False)
         if not matching_key:
             raise ValueError(f"Key {key_name} not found for service {service}")
         elif matching_key.status == 'revoked':

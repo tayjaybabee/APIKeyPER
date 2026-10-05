@@ -19,7 +19,8 @@ Usage example::
     print(status)  # Output might be: {"numpy": True, "tensorflow": False}
 
 Dependencies:
-    This module requires the `pkg_resources` module to determine the installation status of packages.
+    This module uses the standard library `importlib.metadata` to determine the
+    installation status of packages (no third-party dependencies required).
 
 Note:
     Ensure the list of packages provided to the `PackageChecker` class are correctly named
@@ -27,7 +28,7 @@ Note:
 """
 
 
-import pkg_resources
+from importlib.metadata import PackageNotFoundError, version
 
 
 class PackageChecker:
@@ -52,12 +53,13 @@ class PackageChecker:
         Returns:
             dict: A dictionary with package names as keys and their installation status (True/False) as values.
         """
-        installed_packages = pkg_resources.working_set
-        installed_packages_list = sorted(
-            ["%s==%s" % (i.key, i.version) for i in installed_packages]
-        )
+        installed = {}
+        for pkg in self.packages_list:
+            try:
+                version(pkg)
+            except PackageNotFoundError:
+                installed[pkg] = False
+            else:
+                installed[pkg] = True
 
-        return {
-            pkg: any([pkg in item for item in installed_packages_list])
-            for pkg in self.packages_list
-        }
+        return installed

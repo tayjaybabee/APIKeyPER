@@ -118,6 +118,62 @@ class Arguments(ArgumentParser):
             help='Name of the API key (unique, within the service).',
         )
 
+    def __build_revoke_cmd__(self):
+        """
+        Builds the revoke command parser. Internal use only.
+        """
+        if not self.__p_subparsers:
+            raise RuntimeError('Subparsers not built.')
+
+        if self.__revoke_sp:
+            raise RuntimeError('"revoke" command already built.')
+
+        self.__revoke_sp = self.__p_subparsers.add_parser(
+            'revoke',
+            help='Revoke an API key for a service (marks it inactive without deleting it).'
+        )
+
+        self.__revoke_sp.add_argument(
+            '--service',
+            type=str,
+            help='Name of the service.',
+            required=True
+        )
+
+        self.__revoke_sp.add_argument(
+            '--key-name',
+            type=str,
+            help='Name of the API key (unique, within the service).',
+            required=True
+        )
+
+        self.__revoke_sp.add_argument(
+            '-y', '--yes',
+            action='store_true',
+            help='If set, will not prompt for confirmation.',
+        )
+
+    def __build_list_cmd__(self):
+        """
+        Builds the list command parser. Internal use only.
+        """
+        if not self.__p_subparsers:
+            raise RuntimeError('Subparsers not built.')
+
+        if self.__list_sp:
+            raise RuntimeError('"list" command already built.')
+
+        self.__list_sp = self.__p_subparsers.add_parser(
+            'list',
+            help='List services, or the keys stored for one service.'
+        )
+
+        self.__list_sp.add_argument(
+            '--service',
+            type=str,
+            help='If given, list the keys for this service instead of all services.',
+        )
+
     def __build_subparsers__(self):
         self.__p_subparsers = self.add_subparsers(
             dest='command',
@@ -129,6 +185,8 @@ class Arguments(ArgumentParser):
         self.__build_add_cmd__()
         self.__build_del_cmd__()
         self.__build_get_cmd__()
+        self.__build_revoke_cmd__()
+        self.__build_list_cmd__()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, description='APIKeyPER - API Key Personal Encrypted Reliquary', **kwargs)
@@ -137,6 +195,8 @@ class Arguments(ArgumentParser):
         self.__add_sp = None
         self.__del_sp = None
         self.__get_sp = None
+        self.__revoke_sp = None
+        self.__list_sp = None
         self.__build_subparsers__()
 
     def parse(self, force=False):

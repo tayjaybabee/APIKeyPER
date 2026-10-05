@@ -12,6 +12,8 @@ organized manner.
 - **Retrieve API Keys**: Retrieve API keys associated with a specific service.
 - **Delete API Keys**: Delete API keys associated with a specific service.
 - **List Services**: List all the services for which API keys are stored.
+- **List Keys**: List key names and statuses for a service without displaying key values.
+- **Revoke Keys**: Mark a key inactive without deleting its record.
 
 #### Basic API Usage Example:
 
@@ -37,8 +39,32 @@ if github_key_data:
 services = api.list_services()
 print(f"Services with API keys: {services}")
 
+# List a service's key records (key values are not displayed)
+keys = api.list_keys_for_service("github")
+print([(key[1], key[4]) for key in keys])
+
+# Revoke a key without deleting its record
+api.revoke_key("github", "primary")
+
 # Delete a key
 api.delete_key("aws")
+```
+
+### CLI Usage
+
+List all services, or list the key names and statuses for one service:
+
+```console
+apikeyper list
+apikeyper list --service github
+```
+
+Revoke a key by service and key name. The command asks for confirmation unless
+`--yes` (or `-y`) is provided:
+
+```console
+apikeyper revoke --service github --key-name primary
+apikeyper revoke --service github --key-name primary --yes
 ```
 
 ### 2. Encryption and Security
