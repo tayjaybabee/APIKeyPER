@@ -161,7 +161,7 @@ class Arguments(ArgumentParser):
         self.__build_revoke_cmd__()
 
     def __init__(self, *args, **kwargs):
-        super().__init__(description='APIKeyPER - API Key Personal Encrypted Reliquary')
+        super().__init__(*args, description='APIKeyPER - API Key Personal Encrypted Reliquary', **kwargs)
         self.__parsed = None
         self.__p_subparsers = None
         self.__add_sp = None

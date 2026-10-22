@@ -85,7 +85,7 @@ def apikey_required(service_names: Union[str, List[str]]) -> Callable:
                     api_manager.add_key(service_name, user_api_key)
                     api_keys[service_name] = user_api_key
                 else:
-                    api_keys[service_name] = api_key[3]  # Get the key field from the tuple
+                    api_keys[service_name] = api_key.key
 
 
             # Only inject api_keys if the function accepts it
@@ -128,9 +128,6 @@ def apikey_required_class(service_names: Union[str, List[str]]) -> Callable:
             from pathlib import Path
             api_manager = APIKeyPER(Path("default_apikeys.db"))
 
-
-            # Collect API keys and ensure they're available
-            collected_keys = {}
             for service_name in service_names:
                 api_key = api_manager.get_key(service_name)
                 if not api_key:
@@ -139,9 +136,9 @@ def apikey_required_class(service_names: Union[str, List[str]]) -> Callable:
                     )
                     user_api_key = input()  # Get user input for the API key
                     api_manager.add_key(service_name, user_api_key)
-                    collected_keys[service_name] = user_api_key
+                    setattr(cls, f"{service_name.upper()}_API_KEY", user_api_key)
                 else:
-                    setattr(cls, f"{service_name.upper()}_API_KEY", api_key[3])
+                    setattr(cls, f"{service_name.upper()}_API_KEY", api_key.key)
 
 
             original_init(self, *args, **kwargs)

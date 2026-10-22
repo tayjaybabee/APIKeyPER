@@ -1,15 +1,16 @@
-from .core import register
+from argparse import Namespace
+
 from apikeyper import APIKeyPER
 
+from .core import register
 
-@register('get')
-def do_get(ns):
-    """Retrieve an API key from the database."""
-    api = APIKeyPER()
-    result = api.get_key(ns.service, key_name=ns.key_name)
-    if result is None:
-        print(f"No active API key found for service '{ns.service}'.")
+
+@register("get")
+def do_get(ns: Namespace) -> int:
+    """Get an API key from the database."""
+    record = APIKeyPER().get_key(ns.service, ns.key_name)
+    if record is None:
         return 1
 
-    print(result[3])
+    print(record.key)
     return 0

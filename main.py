@@ -1,12 +1,16 @@
+from apikeyper.cli import handlers  # noqa: F401
+from apikeyper.cli.handlers.core import COMMAND_HANDLERS
 from apikeyper.config.arguments import ARGUMENTS
-from apikeyper.cli.handlers import COMMAND_HANDLERS
 
 
 def main() -> int:
-    args = ARGUMENTS.parse()
-    handler = COMMAND_HANDLERS[args.command]
-    return handler(args) or 0
+    args = ARGUMENTS.parse(force=True)
+    handler = COMMAND_HANDLERS.get(args.command)
+    if handler is None:
+        ARGUMENTS.error(f"Unsupported command: {args.command}")
+
+    return handler(args)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     raise SystemExit(main())

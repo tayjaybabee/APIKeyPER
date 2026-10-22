@@ -34,11 +34,10 @@ class TestAPIKeyPER:
         
         # Verify the result
         assert result is not None
-        assert isinstance(result, tuple)
+        assert result.service == "test_service"
         assert len(result) == 6  # (service, key_name, added, key, status, revoked_on)
-        assert result[0] == "test_service"  # service
-        assert result[3] == "test_key_123"  # key
-        assert result[4] == "active"        # status
+        assert result.key == "test_key_123"
+        assert result.status == "active"
 
     def test_get_nonexistent_key(self, tmp_path):
         """Test retrieving a key that doesn't exist."""
@@ -121,13 +120,13 @@ class TestAPIKeyPER:
         
         # Check individual keys
         github_key = api.get_key("github")
-        assert github_key[3] == "ghp_123456"
+        assert github_key.key == "ghp_123456"
         
         openai_key = api.get_key("openai")
-        assert openai_key[3] == "sk-123456"
+        assert openai_key.key == "sk-123456"
         
         aws_key = api.get_key("aws")
-        assert aws_key[3] == "AKIAIOSFODNN7EXAMPLE"
+        assert aws_key.key == "AKIAIOSFODNN7EXAMPLE"
         
         # Delete one service
         api.delete_key("openai")
@@ -143,8 +142,8 @@ class TestAPIKeyPER:
         assert api.get_key("openai") is None
         
         # Verify other keys still exist
-        assert api.get_key("github")[3] == "ghp_123456"
-        assert api.get_key("aws")[3] == "AKIAIOSFODNN7EXAMPLE"
+        assert api.get_key("github").key == "ghp_123456"
+        assert api.get_key("aws").key == "AKIAIOSFODNN7EXAMPLE"
 
     def test_multiple_keys_per_service(self, tmp_path):
         """Test that get_key returns the most recent active key when multiple exist."""
@@ -158,7 +157,7 @@ class TestAPIKeyPER:
         # Should return the most recent key (since we order by added DESC)
         result = api.get_key("test_service")
         assert result is not None
-        assert result[3] == "new_key"
+        assert result.key == "new_key"
 
     def test_get_key_returns_most_recently_added_active_key(self, tmp_path):
         """When a service has multiple active keys, get_key(key_name=None) returns the one with the latest `added` timestamp, not necessarily the last one inserted."""
@@ -241,7 +240,7 @@ class TestAPIKeyPER:
         # Data should be accessible from second instance
         result = api2.get_key("persistent_service")
         assert result is not None
-        assert result[3] == "persistent_key"
+        assert result.key == "persistent_key"
         
         # Services list should also be accessible
         services = api2.list_services()
