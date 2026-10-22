@@ -6,7 +6,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='apikeyper',
-    version='0.1.0',
+    version='0.2.0',
     description='',
     author='Taylor B. <tayjaybabee@gmail.com>',
     url='',
