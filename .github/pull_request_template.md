@@ -28,4 +28,5 @@
 - [ ] I did not include real API keys, encryption keys, or other secrets
 - [ ] I verified public examples still make sense after the change
 - [ ] I kept version metadata aligned if I changed package versioning
-- [ ] I updated `CHANGELOG.md` and bumped the version (or this is a docs/template-only change that skips the bump)
+- [ ] I updated `CHANGELOG.md` and bumped the version (or this is a
+  docs/template-only change that skips the bump)
