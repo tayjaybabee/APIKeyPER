@@ -47,6 +47,22 @@ poetry run pytest
 Tests live in `tests/`. If you change public API behavior, decorator behavior,
 CLI parsing, or README examples, add or update tests in the same change.
 
+## Building Documentation
+
+```bash
+poetry install --with docs --no-interaction
+poetry run sphinx-build -b html docs/source docs/_build/local-html
+```
+
+## Changelog and Versioning
+
+If a change affects shipped behavior, packaging, dependencies, or release
+automation, update `CHANGELOG.md` (Added / Changed / Fixed / Removed /
+Breaking Changes) and bump the version in `pyproject.toml` and `setup.py` in the
+same PR. If the PR already contains a version bump relative to the base branch,
+do not bump again. Docs-only and template-only changes may skip the bump; note
+that in the PR checklist.
+
 ## Security Expectations
 
 Because this project handles secrets, security hygiene is part of every
@@ -63,7 +79,8 @@ contribution:
 
 1. Keep changes scoped and explain why they are needed.
 2. Ensure tests pass after your changes.
-3. Update documentation when public behavior changes.
+3. Update documentation and `CHANGELOG.md` when public or shipped behavior
+   changes, bumping the version as described above.
 4. Open a Pull Request against the default branch and fill out the PR template.
 
 ## Packaging Notes

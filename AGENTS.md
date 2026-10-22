@@ -30,6 +30,31 @@ operations for service keys.
   `default_apikeys.db`, and `__pycache__/`. Do not treat them as authoritative
   source material when making code changes.
 
+## Required Workflow
+
+- Use Poetry for installs and test execution. In a fresh checkout:
+
+```bash
+poetry install --no-interaction
+poetry run pytest
+```
+
+- For changes that affect shipped behavior, packaging, dependencies, or release
+  automation, update `CHANGELOG.md` and bump the version in both
+  `pyproject.toml` and `setup.py` in the same change. If the PR already
+  contains a version bump relative to the base branch, do not bump again.
+- Docs-only and template-only changes may skip the release bump; say so in the
+  PR checklist.
+- Build the Sphinx docs (optional `docs` group) with:
+
+```bash
+poetry install --with docs --no-interaction
+poetry run sphinx-build -b html docs/source docs/_build/local-html
+```
+
+- Prefer adapting instructions to this repo's real structure rather than
+  copying wording from other projects.
+
 ## Security Rules
 
 - Never commit real API keys, encryption keys, exported secrets, or machine-

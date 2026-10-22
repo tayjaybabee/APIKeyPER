@@ -23,6 +23,9 @@ and is the interface used in the README examples.
 - Keep `pyproject.toml` and `setup.py` version metadata aligned if versioning is
   touched.
 - Update `README.md` if public usage or examples change.
+- For shipped-behavior, packaging, or dependency changes, update `CHANGELOG.md`
+  and bump the version in both `pyproject.toml` and `setup.py` (skip if the PR
+  already contains a bump; docs/template-only changes may skip).
 
 ## Security Guidance
 
