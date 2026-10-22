@@ -1,16 +1,16 @@
-from .core import register
+from argparse import Namespace
+
 from apikeyper import APIKeyPER
 
+from .core import register
 
-@register('revoke')
-def do_revoke(ns):
+
+@register("revoke")
+def do_revoke(ns: Namespace) -> int:
     """Revoke an API key for a service without deleting it."""
-    api = APIKeyPER()
     try:
-        api.revoke_key(ns.service, ns.key_name)
-    except ValueError as e:
-        print(str(e))
+        APIKeyPER().revoke_key(ns.service, ns.key_name)
+    except ValueError:
         return 1
 
-    print(f"Revoked API key '{ns.key_name}' for service '{ns.service}'.")
     return 0
