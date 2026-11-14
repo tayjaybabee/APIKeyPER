@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "apikeyper"
-version = "0.1.0"
-description = ""
+version = "0.2.0"
+description = "APIKeyPER - API Key Personal Encrypted Reliquary"
 authors = ["Taylor B. <tayjaybabee@gmail.com>"]
 readme = "README.md"
 
@@ -32,4 +32,4 @@ npyscreen = "^4.10.5"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
- 
+
