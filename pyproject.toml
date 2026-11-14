@@ -10,7 +10,7 @@ apikeyper = "main:main"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-cryptography = ">=40.0.2,<51.0.0"
+cryptography = ">=50.0.0,<51.0.0"
 appdirs = "^1.4.4"
 keyring = "^23.13.1"
 rich = "^13.4.2"
@@ -32,4 +32,3 @@ npyscreen = "^4.10.5"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
