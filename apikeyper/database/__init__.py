@@ -2,12 +2,14 @@ from __future__ import annotations
 
 import sqlite3
 import json
-import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as ElementTree
 from typing import Optional
 from dataclasses import dataclass
 from apikeyper.__about__ import __DEFAULT_DATA_DIR__
 from apikeyper.log_engine import Loggable, LOG_DEVICE as ROOT_LOGGER
 from datetime import datetime, timezone
+
+__all__ = ["APIKey", "APIKeyDB", "DEFAULT_DB_FILEPATH", "Loggable"]
 
 
 logger = ROOT_LOGGER.get_child()
@@ -21,6 +23,8 @@ This module defines a class, APIKeyDB, for managing API keys stored in a SQLite 
 """
 
 
+# The dataclass decorator generates the constructor.
+# noinspection PyClassHasNoInit
 @dataclass
 class APIKey:
     service: str
@@ -247,21 +251,21 @@ class APIKeyDB:
             redact_secrets (bool): Whether to redact API key values. Defaults to True for security.
 
         """
-        root = ET.Element("services")
+        root = ElementTree.Element("services")
 
         all_services = self.list_services()
         for service in all_services:
-            service_element = ET.SubElement(root, "service", name=service)
+            service_element = ElementTree.SubElement(root, "service", name=service)
             keys = self.list_keys_for_service(service)
             for key in keys:
-                key_element = ET.SubElement(service_element, "key")
-                ET.SubElement(key_element, "key_name").text = key[1]
-                ET.SubElement(key_element, "added").text = key[2]
-                ET.SubElement(key_element, "key_value").text = "***REDACTED***" if redact_secrets else key[3]
-                ET.SubElement(key_element, "status").text = key[4]
-                ET.SubElement(key_element, "revoked_on").text = key[5]
+                key_element = ElementTree.SubElement(service_element, "key")
+                ElementTree.SubElement(key_element, "key_name").text = key[1]
+                ElementTree.SubElement(key_element, "added").text = key[2]
+                ElementTree.SubElement(key_element, "key_value").text = "***REDACTED***" if redact_secrets else key[3]
+                ElementTree.SubElement(key_element, "status").text = key[4]
+                ElementTree.SubElement(key_element, "revoked_on").text = key[5]
 
-        tree = ET.ElementTree(root)
+        tree = ElementTree.ElementTree(root)
         tree.write(export_path)
 
     def revoke_key(

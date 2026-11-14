@@ -52,7 +52,9 @@ from typing import Union, List, Any, Callable
 from apikeyper import APIKeyPER
 
 
-def apikey_required(service_names: Union[str, List[str]]) -> Callable:
+def apikey_required(
+    service_names: Union[str, List[str]],
+) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
     """
     A decorator to ensure API keys are available for given services.
     If a key is not available in the database, it prompts the user for input.
@@ -67,8 +69,8 @@ def apikey_required(service_names: Union[str, List[str]]) -> Callable:
     if not isinstance(service_names, list):
         service_names = [service_names]
 
-    def decorator(func: Callable) -> Callable:
-        def wrapper(*args, **kwargs):
+    def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
             api_manager = APIKeyPER()
 
 
@@ -98,7 +100,7 @@ def apikey_required(service_names: Union[str, List[str]]) -> Callable:
     return decorator
 
 
-def apikey_required_class(service_names: Union[str, List[str]]) -> Callable:
+def apikey_required_class(service_names: Union[str, List[str]]) -> Callable[[type], type]:
     """
     A class decorator to ensure API keys are available for given services.
     If a key is not available in the database, it prompts the user for input.
@@ -118,10 +120,10 @@ def apikey_required_class(service_names: Union[str, List[str]]) -> Callable:
     if not isinstance(service_names, list):
         service_names = [service_names]
 
-    def decorator(cls: Any) -> Any:
+    def decorator(cls: type) -> type:
         original_init = cls.__init__
 
-        def new_init(self, *args, **kwargs):
+        def new_init(self, *args: Any, **kwargs: Any) -> None:
             api_manager = APIKeyPER()
 
             for service_name in service_names:
