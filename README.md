@@ -70,6 +70,8 @@ apikeyper revoke --service github --key-name primary --yes
 ### 2. Encryption and Security
 
 - **Encryption Key Management**: Manage encryption keys through file, system keyring, or SFTP server.
+  `CryptDB` creates or reuses `key.pem` in the per-user APIKeyPER data directory
+  when constructed without an explicit encryption key.
 - **Encryption Key Export**: Export the encryption key to a file, system keyring, or SFTP server.
 
 

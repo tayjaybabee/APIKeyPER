@@ -9,6 +9,7 @@ Description:
 """
 import importlib
 import os
+from pathlib import Path
 
 from cryptography.fernet import Fernet
 from apikeyper.__about__ import __DEFAULT_DATA_DIR__ as DEFAULT_DATA_DIR
@@ -97,6 +98,7 @@ class EncryptionKey:
         Args:
             storage_method (str): The method used for key storage.
             key_file (str, optional): The path to the file that stores the encryption key.
+                File storage defaults to key.pem in the APIKeyPER data directory.
             sftp_details (dict, optional): A dictionary containing the connection details for the SFTP server.
         """
 
@@ -116,6 +118,9 @@ class EncryptionKey:
         """
 
         if self.storage_method == "file":
+            if self.key_file is None:
+                self.key_file = DEFAULT_KEY_FILEPATH
+                Path(self.key_file).parent.mkdir(parents=True, exist_ok=True)
             return get_key_from_file(self.key_file)
         elif self.storage_method == "keyring":
             return get_key_from_keyring()
