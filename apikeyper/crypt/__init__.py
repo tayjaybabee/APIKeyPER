@@ -40,7 +40,7 @@ class CryptDB:
             file_path (str, optional): The path to the file that stores the encrypted database.
                 Defaults to None, which will use a default path based on appdirs.
             encryption_key (EncryptionKey, optional): The encryption key used for encrypting and decrypting the database.
-                Defaults to None, which will generate a new key.
+                Defaults to the key in the APIKeyPER data directory, creating it if missing.
         """
 
         if file_path is None:
