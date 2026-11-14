@@ -77,6 +77,7 @@ apikeyper revoke --service github --key-name primary --yes
 
 APIKeyPER provides decorators to ensure that the required API keys are available for specific services. These can be
 applied at both the function and class levels.
+Both decorators use the same per-user database as the `apikeyper` CLI.
 
 ### Function-level Decorator: `apikey_required`
 

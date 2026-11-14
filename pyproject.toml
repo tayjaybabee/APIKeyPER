@@ -9,13 +9,14 @@ readme = "README.md"
 apikeyper = "main:main"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = ">=3.11,<4.0"
 cryptography = ">=50.0.0,<51.0.0"
 appdirs = "^1.4.4"
 keyring = "^23.13.1"
-rich = "^13.4.2"
 prompt-toolkit = "^3.0.39"
 pysimplegui-4-foss = "^4.60.4.1"
+rich = "^15.0.0"
+inspy-logger = "^3.2.4"
 
 
 [tool.poetry.group.docs.dependencies]
@@ -28,6 +29,12 @@ sphinx-autodoc-typehints = "^1.24.0"
 
 [tool.poetry.group.cli.dependencies]
 npyscreen = "^4.10.5"
+
+
+[tool.poetry.group.dev.dependencies]
+prompt-toolkit = "^3.0.53"
+ipython = "^9.18.1"
+ptipython = "^1.0.1"
 
 [build-system]
 requires = ["poetry-core"]

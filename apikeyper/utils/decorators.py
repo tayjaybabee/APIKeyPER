@@ -69,9 +69,7 @@ def apikey_required(service_names: Union[str, List[str]]) -> Callable:
 
     def decorator(func: Callable) -> Callable:
         def wrapper(*args, **kwargs):
-            from apikeyper import APIKeyPER
-            from pathlib import Path
-            api_manager = APIKeyPER(Path("default_apikeys.db"))
+            api_manager = APIKeyPER()
 
 
             api_keys = {}
@@ -124,9 +122,7 @@ def apikey_required_class(service_names: Union[str, List[str]]) -> Callable:
         original_init = cls.__init__
 
         def new_init(self, *args, **kwargs):
-            from apikeyper import APIKeyPER
-            from pathlib import Path
-            api_manager = APIKeyPER(Path("default_apikeys.db"))
+            api_manager = APIKeyPER()
 
             for service_name in service_names:
                 api_key = api_manager.get_key(service_name)
