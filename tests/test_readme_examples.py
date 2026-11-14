@@ -43,8 +43,8 @@ class TestREADMEExamples:
 
         # Verify deletion
         services_after_delete = api.list_services()
-        assert "aws" not in services_after_delete
-        assert len(services_after_delete) == 2
+        assert "aws" in services_after_delete
+        assert api.get_key("aws") is None
 
     def test_function_decorator_example(self, tmp_path, monkeypatch):
         """Test the function decorator example from README."""

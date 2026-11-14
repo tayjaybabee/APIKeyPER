@@ -1,6 +1,7 @@
 import logging
 import re
 from logging import Formatter
+from apikeyper.log_engine import Loggable, MOD_LOGGER
 
 logger = logging.getLogger(__name__)
 
@@ -11,12 +12,16 @@ performing certain string and number operations.
 """
 
 
-class CustomFormatter(Formatter):
+class CustomFormatter(Loggable, Formatter):
     """
     CustomFormatter extends the logging.Formatter class to provide a custom
     formatting behavior. Specifically, it replaces '<ipython-input-...>'
     patterns in record.pathname with 'iPython'.
     """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(parent_log_device=MOD_LOGGER)
+        Formatter.__init__(self, *args, **kwargs)
 
     def format(self, record):
         """

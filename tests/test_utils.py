@@ -1,4 +1,6 @@
-from apikeyper.log_engine import Logger
+import logging
+
+from apikeyper.log_engine import Loggable, MOD_LOGGER, ROOT_LOGGER
 from apikeyper.utils import PackageChecker
 
 
@@ -24,13 +26,12 @@ class TestPackageChecker:
         }
 
 
-def test_find_child_by_name():
-    parent = Logger("test_find_child_by_name")
-    first = parent.get_child("first")
-    second = parent.get_child("second")
-    first_name, second_name = parent.get_child_names()
+def test_package_logging_inherits_console_only_settings():
+    checker = PackageChecker([])
 
-    assert parent.find_child_by_name(first_name) is first
-    assert parent.find_child_by_name(second_name) is second
-    assert parent.find_child_by_name("second") is None
-    assert parent.find_child_by_name("unknown") is None
+    assert isinstance(checker, Loggable)
+    assert ROOT_LOGGER.get_child("log_engine") is MOD_LOGGER
+    assert checker.log_device is ROOT_LOGGER.get_child("utils.PackageChecker")
+    for logger in (ROOT_LOGGER, MOD_LOGGER, checker.log_device):
+        assert logger.console_level == logging.INFO
+        assert logger.no_file_logging

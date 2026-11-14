@@ -54,15 +54,31 @@ class TestCLI:
         db_path = tmp_path / "cli.db"
         monkeypatch.setattr(apikeyper, "DEFAULT_DB_FILEPATH", db_path)
 
-        result = do_add(
-            Namespace(service="github", api_key="ghp_cli_token", key_name="primary")
+        parsed = Arguments().parse_args(
+            ["add", "--service", "github", "--api-key", "ghp_cli_token",
+             "--key-name", "primary", "--key-id", "fake-provider-id"]
         )
+        result = do_add(parsed)
 
         record = APIKeyPER(db_path).get_key("github", "primary")
 
         assert result == 0
         assert record is not None
         assert record.key == "ghp_cli_token"
+        assert record.key_id == "fake-provider-id"
+
+    def test_add_handler_rejects_missing_required_key_id(self, tmp_path, monkeypatch, capsys):
+        db_path = tmp_path / "cli.db"
+        monkeypatch.setattr(apikeyper, "DEFAULT_DB_FILEPATH", db_path)
+        api = APIKeyPER()
+        api.add_service("Wyze", require_key_id=True)
+        parsed = Arguments().parse_args(
+            ["add", "--service", "Wyze", "--api-key", "fake_token"]
+        )
+
+        assert do_add(parsed) == 1
+        assert "requires a non-blank key_id" in capsys.readouterr().out
+        assert api.get_key("Wyze") is None
 
     def test_revoke_handler_revokes_key(self, tmp_path, monkeypatch):
         db_path = tmp_path / "cli.db"

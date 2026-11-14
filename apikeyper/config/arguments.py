@@ -6,9 +6,10 @@ File:
   Filepath: apikeyper/config
 """
 from argparse import ArgumentParser
+from apikeyper.log_engine import Loggable, ROOT_LOGGER
 
 
-class Arguments(ArgumentParser):
+class Arguments(Loggable, ArgumentParser):
     """
     A custom ArgumentParser for managing API keys associated with different services.
 
@@ -53,6 +54,10 @@ class Arguments(ArgumentParser):
             '--key-name',
             type=str,
             help='Name of the API key (unique, within the service).',
+        )
+        self.__add_sp.add_argument(
+            '--key-id',
+            help='Optional key ID supplied by the credential provider.',
         )
 
     def __build_del_cmd__(self):
@@ -189,7 +194,10 @@ class Arguments(ArgumentParser):
         self.__build_list_cmd__()
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, description='APIKeyPER - API Key Personal Encrypted Reliquary', **kwargs)
+        super().__init__(parent_log_device=ROOT_LOGGER.get_child("config"))
+        ArgumentParser.__init__(
+            self, *args, description='APIKeyPER - API Key Personal Encrypted Reliquary', **kwargs
+        )
         self.__parsed = None
         self.__p_subparsers = None
         self.__add_sp = None

@@ -50,7 +50,55 @@ api.revoke_key("github", "primary")
 api.delete_key("aws")
 ```
 
+Use `api.add_service(name)` to register a service and get a `Service` object.
+Registered services appear in `list_services()` even when they have no keys.
+Use `api.service(name)` to get a handle for a name without registering it.
+`api.get_service(name)` returns a single `Service` for an exact,
+case-sensitive match. For other queries it logs a warning through InspyLogger and returns
+a list of suggestions based on case-insensitive partial matches and similar
+spellings. The list is empty if there are no suggestions.
+`add_key()`, `get_key()`, and `list_keys()` provide `APIKey` records with metadata such as
+`key_name` and `status`. Access the credential explicitly through `.key`.
+
+```python
+home = api.add_service("Home Assistant")
+record = home.add_key("fake_home_assistant_token", key_name="primary")
+token = record.key
+```
+
+The `added` and `revoked_on` fields use comparable `Date` objects. For
+example, `Date("9/20/2023") == Date("2023-09-20T00:00:00Z")` after importing
+`Date` from `apikeyper`. Common formats include ISO 8601, slash-separated
+dates, English month names, and RFC-style timestamps. Ambiguous slash dates
+use month-first order. Dates without a timezone use UTC.
+
+`was_defaulted` is read-only and records whether APIKeyPER supplied the
+current time. Existing stored timestamps carry no default history and are
+treated as supplied. A missing revocation date remains `None`. Invalid
+nonblank date strings raise `ValueError`.
+
+For providers such as Wyze, store the token and provider-assigned Key ID
+together. `key_name` is the local label. Read the token through `record.key`
+and the optional ID through `record.key_id`. Default exports redact both.
+
+```python
+wyze = api.add_service("Wyze", require_key_id=True)
+record = wyze.add_key(
+    "fake_wyze_token",
+    key_name="primary",
+    key_id="example-provider-key-id",
+)
+```
+
+Change the requirement by assigning `wyze.require_key_id = False` or
+`wyze.require_key_id = True`. The setting is saved immediately and applies
+to subsequent writes, including replacements. Existing keys stay readable.
+`api.add_key(service, ...)` registers the service before adding the key.
+Registered services stay listed after their last key is deleted.
+
 ### CLI Usage
+
+Use `--key-id` on `apikeyper add` when the provider supplies a Key ID.
 
 List all services, or list the key names and statuses for one service:
 
@@ -82,6 +130,22 @@ applied at both the function and class levels.
 Both decorators use the same per-user database as the `apikeyper` CLI.
 
 ### Function-level Decorator: `apikey_required`
+
+For a single service, declare an `api_key` parameter to receive the stored key
+directly. It can be a regular or keyword-only parameter. An explicitly passed
+`api_key` value takes precedence over injection.
+
+```python
+from apikeyper.utils.decorators import apikey_required
+
+@apikey_required("Home Assistant")
+def my_func(api_key):
+    return api_key
+
+key = my_func()
+```
+
+For multiple services, use the `api_keys` mapping.
 
 Ensure API keys are available for specific services at the function level.
 

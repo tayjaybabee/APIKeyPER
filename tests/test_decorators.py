@@ -24,6 +24,28 @@ from apikeyper.utils.decorators import apikey_required, apikey_required_class
 class TestAPIKeyRequiredDecorator:
     """Test class for apikey_required function decorator."""
 
+    def test_injects_single_key_into_named_parameter(self, tmp_path, monkeypatch):
+        monkeypatch.setattr(apikeyper, "DEFAULT_DB_FILEPATH", tmp_path / "keys.db")
+        APIKeyPER().add_key("Home Assistant", "fake_home_assistant_key")
+
+        @apikey_required("Home Assistant")
+        def get_key(label, api_key):
+            return label, api_key
+
+        assert get_key("home") == ("home", "fake_home_assistant_key")
+        assert get_key("home", "fake_override") == ("home", "fake_override")
+        assert get_key("home", api_key="fake_override") == ("home", "fake_override")
+
+    def test_injects_single_key_into_keyword_only_parameter(self, tmp_path, monkeypatch):
+        monkeypatch.setattr(apikeyper, "DEFAULT_DB_FILEPATH", tmp_path / "keys.db")
+        APIKeyPER().add_key("Home Assistant", "fake_home_assistant_key")
+
+        @apikey_required(["Home Assistant"])
+        def get_key(*, api_key):
+            return api_key
+
+        assert get_key() == "fake_home_assistant_key"
+
     def test_decorator_injects_api_keys_with_kwargs(self, tmp_path, monkeypatch):
         """Test that apikey_required injects api_keys when function accepts **kwargs."""
 

@@ -8,5 +8,11 @@ from .core import register
 @register("add")
 def do_add(ns: Namespace) -> int:
     """Add an API key to the database."""
-    APIKeyPER().add_key(ns.service, ns.api_key, key_name=ns.key_name)
+    try:
+        APIKeyPER().add_key(
+            ns.service, ns.api_key, key_name=ns.key_name, key_id=getattr(ns, "key_id", None)
+        )
+    except ValueError as exc:
+        print(f"Error: {exc}")
+        return 1
     return 0

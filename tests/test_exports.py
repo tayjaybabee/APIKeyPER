@@ -111,13 +111,18 @@ class TestExportRedaction:
         assert key_data["key_name"] is not None
         assert key_data["added"] is not None
 
-    def test_export_with_redaction_disabled(self, tmp_path):
-        """Test that exports can show full keys when redaction is disabled."""
+    def test_export_token_and_key_id(self, tmp_path):
         db_path = tmp_path / "test_no_redact.db"
         api = APIKeyPER(db_path)
         
         # Add test key
-        api.add_key("test_service", "full_secret_key_123")
+        api.add_key("test_service", "full_secret_key_123", key_id="fake-provider-id")
+        redacted_json = tmp_path / "redacted.json"
+        redacted_xml = tmp_path / "redacted.xml"
+        api.db.export_db_as_json(redacted_json)
+        api.db.export_db_as_xml(redacted_xml)
+        assert json.loads(redacted_json.read_text())["test_service"][0]["key_id"] == "***REDACTED***"
+        assert ET.parse(redacted_xml).findtext("service/key/key_id") == "***REDACTED***"
         
         # Export JSON without redaction
         json_path = tmp_path / "no_redact.json"
@@ -128,6 +133,7 @@ class TestExportRedaction:
         
         # Should show full key
         assert data["test_service"][0]["key"] == "full_secret_key_123"
+        assert data["test_service"][0]["key_id"] == "fake-provider-id"
         
         # Export XML without redaction
         xml_path = tmp_path / "no_redact.xml"
@@ -139,3 +145,4 @@ class TestExportRedaction:
         
         # Should show full key
         assert key_value.text == "full_secret_key_123"
+        assert root.findtext("service/key/key_id") == "fake-provider-id"

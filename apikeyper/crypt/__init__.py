@@ -13,11 +13,9 @@ import importlib
 from cryptography.fernet import Fernet
 
 
-from apikeyper.log_engine import LOG_DEVICE as ROOT_LOGGER
+from apikeyper.log_engine import Loggable, ROOT_LOGGER
 
-LOGGER = ROOT_LOGGER.get_child()
-LOG = LOGGER.logger
-LOG.debug(f'Starting {LOG.name}')
+LOGGER = ROOT_LOGGER.get_child("crypt")
 
 
 from apikeyper.crypt.encryption_key import (
@@ -25,7 +23,7 @@ from apikeyper.crypt.encryption_key import (
 )  # Assuming EncryptionKey is stored in this module
 
 
-class CryptDB:
+class CryptDB(Loggable):
     """
     A class that represents an encrypted database. This database supports encryption using Fernet symmetric encryption.
     """
@@ -43,6 +41,7 @@ class CryptDB:
                 Defaults to the key in the APIKeyPER data directory, creating it if missing.
         """
 
+        super().__init__(parent_log_device=LOGGER)
         if file_path is None:
             # Set a default path using appdirs or any other preferred method
             # For this example, we'll simply set it to 'default_path.db'

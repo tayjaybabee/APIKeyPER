@@ -29,9 +29,10 @@ Note:
 
 
 from importlib.metadata import PackageNotFoundError, version
+from apikeyper.log_engine import Loggable, ROOT_LOGGER
 
 
-class PackageChecker:
+class PackageChecker(Loggable):
     """
     A class to check the installation status of a list of Python packages.
 
@@ -44,6 +45,7 @@ class PackageChecker:
         Args:
             packages_list (list): A list of package names to check.
         """
+        super().__init__(parent_log_device=ROOT_LOGGER.get_child("utils"))
         self.packages_list = packages_list
 
     def check_installed_packages(self) -> dict:

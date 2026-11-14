@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 from typing import Optional
-from datetime import datetime, timezone
+from difflib import get_close_matches
+from apikeyper.date import Date, DateInput
 from apikeyper.database import APIKey, APIKeyDB, DEFAULT_DB_FILEPATH
+from apikeyper.log_engine import Loggable, ROOT_LOGGER
+from apikeyper.service import Service
 from apikeyper.__about__ import __DEFAULT_DATA_DIR__ as DEFAULT_DATA_DIR
 from pathlib import Path
 import os
-import uuid
 
 
 """
@@ -14,7 +16,7 @@ This module defines a class, APIKeyPER, as a wrapper for APIKeyDB to manage API 
 """
 
 
-class APIKeyPER:
+class APIKeyPER(Loggable):
     """
     This class provides a higher-level interface for managing API keys stored in a SQLite database.
 
@@ -29,6 +31,7 @@ class APIKeyPER:
         Parameters:
             db_file_path: The path to the SQLite database file. If None, uses the unified default path.
         """
+        super().__init__(parent_log_device=ROOT_LOGGER)
         if db_file_path is None:
             db_file_path = DEFAULT_DB_FILEPATH
 
@@ -37,27 +40,71 @@ class APIKeyPER:
 
         self.db = APIKeyDB(db_file_path)
 
+    def service(self, name: str) -> Service:
+        """Bind a service name to this store, including before its first key is added."""
+        return Service(name, self)
+
+    def add_service(self, name: str, *, require_key_id: bool | None = None) -> Service:
+        """Register a service and optionally set its Key ID requirement."""
+        if not isinstance(name, str):
+            raise TypeError("Service name must be a string")
+        if not name.strip():
+            raise ValueError("Service name cannot be blank")
+        self.db.add_service(name, require_key_id=require_key_id)
+        return self.service(name)
+
+    def get_service(self, name: str) -> Service | list[Service]:
+        """Return an exact match, or warn and return ranked fuzzy suggestions."""
+        names = self.list_services()
+        if name in names:
+            return self.service(name)
+
+        query = name.strip().casefold()
+        by_folded_name: dict[str, list[str]] = {}
+        for stored_name in names:
+            by_folded_name.setdefault(stored_name.casefold(), []).append(stored_name)
+
+        matches = []
+        if query:
+            matches = [candidate for candidate in by_folded_name if query in candidate]
+            matches.sort(key=lambda candidate: (candidate != query, candidate))
+            remaining = by_folded_name.keys() - set(matches)
+            matches.extend(get_close_matches(query, remaining, n=5, cutoff=0.6))
+
+        suggestions = [
+            self.service(stored_name)
+            for match in matches
+            for stored_name in by_folded_name[match]
+        ]
+        self.log_device.warning(
+            "No exact service match. Returning %d fuzzy suggestions.", len(suggestions)
+        )
+        return suggestions
+
     def add_key(
         self,
         service: str,
         api_key: str,
         key_name: Optional[str] = None,
         status: str = "active",
-        added: Optional[str] = None,
-    ) -> None:
+        added: DateInput = None,
+        *,
+        key_id: Optional[str] = None,
+    ) -> APIKey:
         """
-        Add a key to database associated with a service.
+        Store a key for a service and return its APIKey record.
 
         Parameters:
             service: The service the API key is associated with.
             api_key: The API key associated with the given service.
             key_name: Optional name of the API key.
             status: The status of the API key. Defaults to 'active'.
-            added: The date the key was added (ISO8601 format). If None, current UTC time is used.
+            added: A Date, datetime, date, or timestamp string. Defaults to current UTC time.
+            key_id: Optional identifier supplied by the credential provider.
         """
-        key_name = key_name or f"{service}_key_{uuid.uuid4().hex[:8]}"
-        added = added or datetime.now(timezone.utc).isoformat()
-        self.db.add_key(service, key_name, api_key, added, status)
+        return self.add_service(service).add_key(
+            api_key, key_name=key_name, status=status, added=added, key_id=key_id
+        )
 
     def get_key(
         self,

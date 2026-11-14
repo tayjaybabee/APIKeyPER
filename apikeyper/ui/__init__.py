@@ -11,7 +11,7 @@ import getpass
 from typing import Optional
 from apikeyper import APIKeyPER
 from apikeyper.utils import PackageChecker
-from apikeyper.log_engine import LOG_DEVICE as ROOT_LOGGER
+from apikeyper.log_engine import Loggable, ROOT_LOGGER
 
 from rich.console import Console
 
@@ -22,16 +22,11 @@ __all__ = ["CLI", "UserInputHandler", "PackageChecker"]
 CONSOLE = Console()
 
 
-LOG_DEVICE = ROOT_LOGGER.get_child("ui")
-
-LOGGER = LOG_DEVICE.logger
+LOGGER = ROOT_LOGGER.get_child("ui")
 
 DEFAULT_PASSWORD_PROMPT = "Enter password: "
 
-LOGGER.debug(f"Default password prompt: {DEFAULT_PASSWORD_PROMPT}")
-
-
-class CLI:
+class CLI(Loggable):
     """
     This class provides a command line interface for managing API keys stored in a SQLite database.
 
@@ -46,10 +41,11 @@ class CLI:
         Parameters:
             db_file_path: The path to the SQLite database file.
         """
+        super().__init__(parent_log_device=LOGGER)
         self.apikeyper = APIKeyPER(db_file_path)
 
 
-class UserInputHandler:
+class UserInputHandler(Loggable):
     """
     This class handles user input, either through a graphical user interface (GUI) or command line interface (CLI).
 
@@ -65,6 +61,7 @@ class UserInputHandler:
         Parameters:
             use_gui: Whether to use a GUI for input. Defaults to False.
         """
+        super().__init__(parent_log_device=LOGGER)
         self.use_gui = use_gui
         self.__gui = None
 

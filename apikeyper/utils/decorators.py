@@ -59,6 +59,7 @@ def apikey_required(
     """
     A decorator to ensure API keys are available for given services.
     If a key is not available in the database, it prompts the user for input.
+    For one service, an explicit `api_key` parameter can receive the key directly.
     
     Parameters:
         service_names: A list of service names for which API keys are needed.
@@ -89,8 +90,20 @@ def apikey_required(
                     api_keys[service_name] = api_key.key
 
 
-            # Only inject api_keys if the function accepts it
             sig = inspect.signature(func)
+            key_param = sig.parameters.get("api_key")
+            if (
+                len(service_names) == 1
+                and key_param is not None
+                and key_param.kind in (
+                    inspect.Parameter.POSITIONAL_OR_KEYWORD,
+                    inspect.Parameter.KEYWORD_ONLY,
+                )
+                and "api_key" not in sig.bind_partial(*args, **kwargs).arguments
+            ):
+                kwargs["api_key"] = api_keys[service_names[0]]
+
+            # Keep the service-to-key mapping available to existing callers.
             if 'api_keys' in sig.parameters or any(param.kind == param.VAR_KEYWORD for param in sig.parameters.values()):
                 kwargs['api_keys'] = api_keys
             

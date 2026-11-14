@@ -13,9 +13,11 @@ from pathlib import Path
 
 from cryptography.fernet import Fernet
 from apikeyper.__about__ import __DEFAULT_DATA_DIR__ as DEFAULT_DATA_DIR
+from apikeyper.log_engine import Loggable, ROOT_LOGGER
 
 
 DEFAULT_KEY_FILEPATH = os.path.join(DEFAULT_DATA_DIR, 'key.pem')
+LOGGER = ROOT_LOGGER.get_child("crypt.encryption_key")
 
 
 def get_key_from_file(key_file):
@@ -86,7 +88,7 @@ def get_key_from_sftp(sftp_details):
     return key
 
 
-class EncryptionKey:
+class EncryptionKey(Loggable):
     """
     A class that represents an encryption key. This class supports multiple storage methods.
     """
@@ -102,6 +104,7 @@ class EncryptionKey:
             sftp_details (dict, optional): A dictionary containing the connection details for the SFTP server.
         """
 
+        super().__init__(parent_log_device=LOGGER)
         self.storage_method = storage_method
         self.key_file = key_file
         self.sftp_details = sftp_details
