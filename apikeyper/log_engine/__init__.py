@@ -26,6 +26,7 @@ Dependencies:
 
 import inspect
 import logging
+from typing import Optional
 from rich.logging import RichHandler
 from apikeyper.__about__ import __PROG__ as PROG_NAME
 from apikeyper.log_engine.helpers import (
@@ -209,8 +210,14 @@ class Logger:
     def find_child_by_name(
         self,
         name: str,
-    ):
+    ) -> Optional["Logger"]:
+        """Find a direct child by its exact full name from get_child_names()."""
         names = self.get_child_names()
+        try:
+            index = names.index(name)
+        except ValueError:
+            return None
+        return self.children[index]
 
 
 LOG_DEVICE = Logger(PROG_NAME, DEFAULT_LOGGING_LEVEL)
@@ -253,16 +260,17 @@ class Loggable:
     """
 
     def __init__(self, parent_log_device=None, **kwargs):
+        """Create a child logger with an optional log_name, defaulting to the class name."""
+        self.__log_name = kwargs.pop("log_name", self.__class__.__name__)
+        if kwargs:
+            unexpected = ", ".join(sorted(kwargs))
+            raise TypeError(f"Loggable.__init__() got unexpected keyword arguments: {unexpected}")
+
         self.parent_log_device = parent_log_device
-        self.__log_name = self.__class__.__name__
         if self.parent_log_device is not None:
-            self.__log_device = self.parent_log_device.get_child(
-                self.__class__.__name__
-            )
+            self.__log_device = self.parent_log_device.get_child(self.__log_name)
         else:
-            self.__log_device = _get_parent_logging_device().get_child(
-                self.__class__.__name__
-            )
+            self.__log_device = _get_parent_logging_device().get_child(self.__log_name)
 
     @property
     def log_device(self):

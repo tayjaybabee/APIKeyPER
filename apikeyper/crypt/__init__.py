@@ -30,6 +30,8 @@ class CryptDB:
     A class that represents an encrypted database. This database supports encryption using Fernet symmetric encryption.
     """
 
+    # The public encryption_key keyword shares its name with the submodule.
+    # noinspection PyShadowingNames
     def __init__(self, file_path=None, encryption_key=None):
         """
         Initialize a new CryptDB instance.
@@ -49,10 +51,7 @@ class CryptDB:
         self.file_path = file_path
 
         # If no encryption key is provided, generate one and store it in a file by default
-        if encryption_key is None:
-            encryption_key = EncryptionKey("file")
-
-        self.encryption_key = encryption_key
+        self.encryption_key = encryption_key if encryption_key is not None else EncryptionKey("file")
 
         self.cipher_suite = Fernet(self.encryption_key.key)
 
