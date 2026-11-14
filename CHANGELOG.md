@@ -15,6 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Updated cryptography from 40.0.2 to 50.0.0, resolving the high-severity dependency vulnerability alert flagged by GitHub.
+- Updated cryptography from 40.0.2 to 50.0.0 in poetry.lock. requirements.txt still pins 40.0.2, and the package dependency range still permits it.
 - Updated urllib3 from 2.6.3 to 2.8.0.
 - Updated certifi from 2023.7.22 to 2026.10.19.
