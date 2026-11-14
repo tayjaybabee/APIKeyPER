@@ -16,6 +16,9 @@ from apikeyper.log_engine import LOG_DEVICE as ROOT_LOGGER
 from rich.console import Console
 
 
+__all__ = ["CLI", "UserInputHandler", "PackageChecker"]
+
+
 CONSOLE = Console()
 
 
@@ -67,7 +70,9 @@ class UserInputHandler:
 
         if self.use_gui:
             try:
-                import PySimpleGUI as gui
+                import PySimpleGUI
+
+                self.__gui = PySimpleGUI
             except (NameError, ImportError) as e:
                 print(e)
 
@@ -107,10 +112,16 @@ class UserInputHandler:
         Parameters:
             skip_formatting: Whether to skip formatting the prompt string. Defaults to False.
             prompt: The prompt to display to the user. Defaults to None.
+            **kwargs: Accepts an optional stream forwarded to CLI getpass.
 
         Returns:
             The password entered by the user.
         """
+
+        stream = kwargs.pop("stream", None)
+        if kwargs:
+            unexpected = ", ".join(sorted(kwargs))
+            raise TypeError(f"get_password() got unexpected keyword arguments: {unexpected}")
 
         if prompt and not skip_formatting:
             prompt = self.__prep_custom_prompt_string(prompt)
@@ -118,22 +129,23 @@ class UserInputHandler:
         return (
             self.__get_password_gui(prompt)
             if self.use_gui
-            else self.__get_password_cli(prompt)
+            else self.__get_password_cli(prompt, stream=stream)
         )
 
     @staticmethod
-    def __get_password_cli(prompt: Optional[str] = None) -> str:
+    def __get_password_cli(prompt: Optional[str] = None, stream=None) -> str:
         """
         Gets a password from the user via a command line interface using getpass to avoid echoing.
 
         Parameters:
             prompt: The prompt to display to the user. Defaults to None.
+            stream: Optional output stream forwarded to getpass.
 
         Returns:
             The password entered by the user.
         """
         prompt = prompt or DEFAULT_PASSWORD_PROMPT
-        return getpass.getpass(prompt)
+        return getpass.getpass(prompt, stream=stream)
 
     @staticmethod
     def __get_password_gui(prompt: Optional[str] = None) -> str:

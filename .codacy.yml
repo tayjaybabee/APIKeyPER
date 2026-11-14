@@ -1,0 +1,7 @@
+---
+engines:
+  opengrep:
+    exclude_paths:
+      - "tests/test_readme_examples.py"
+      - "tests/test_crypt.py"
+      - "tests/test_utils.py"
