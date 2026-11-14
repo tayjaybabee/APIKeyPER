@@ -112,7 +112,7 @@ class UserInputHandler:
         Parameters:
             skip_formatting: Whether to skip formatting the prompt string. Defaults to False.
             prompt: The prompt to display to the user. Defaults to None.
-            stream: Optional CLI output stream forwarded to getpass.
+            **kwargs: Accepts an optional stream forwarded to CLI getpass.
 
         Returns:
             The password entered by the user.

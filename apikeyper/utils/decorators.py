@@ -48,12 +48,13 @@ Note:
 """
 
 import inspect
-from typing import Union, List, Any, Callable
+from collections.abc import Callable
+from typing import Any
 from apikeyper import APIKeyPER
 
 
 def apikey_required(
-    service_names: Union[str, List[str]],
+    service_names: str | list[str],
 ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
     """
     A decorator to ensure API keys are available for given services.
@@ -100,7 +101,7 @@ def apikey_required(
     return decorator
 
 
-def apikey_required_class(service_names: Union[str, List[str]]) -> Callable[[type], type]:
+def apikey_required_class(service_names: str | list[str]) -> Callable[[type], type]:
     """
     A class decorator to ensure API keys are available for given services.
     If a key is not available in the database, it prompts the user for input.
