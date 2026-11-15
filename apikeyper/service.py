@@ -5,6 +5,7 @@ from uuid import uuid4
 
 from apikeyper.database import APIKey
 from apikeyper.date import DateInput
+from apikeyper.env_names import key_env_name, normalize_env_prefix
 from apikeyper.log_engine import Loggable, ROOT_LOGGER
 
 if TYPE_CHECKING:
@@ -21,6 +22,18 @@ class Service(Loggable):
 
     def __repr__(self) -> str:
         return f"{type(self).__name__}(name={self.name!r})"
+
+    @property
+    def env_prefix(self) -> str:
+        """The saved environment prefix, or the normalized service name."""
+        return self._store.db.get_env_prefix(self.name) or normalize_env_prefix(self.name)
+
+    @env_prefix.setter
+    def env_prefix(self, prefix: str | None) -> None:
+        if prefix is not None:
+            key_env_name(prefix)
+            prefix = normalize_env_prefix(prefix)
+        self._store.db.set_env_prefix(self.name, prefix)
 
     @property
     def require_key_id(self) -> bool:

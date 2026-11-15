@@ -7,6 +7,7 @@ from typing import Optional
 from dataclasses import dataclass, field
 from apikeyper.__about__ import __DEFAULT_DATA_DIR__
 from apikeyper.date import Date, DateInput
+from apikeyper.env_names import key_env_name
 from apikeyper.log_engine import Loggable, ROOT_LOGGER
 
 __all__ = ["APIKey", "APIKeyDB", "DEFAULT_DB_FILEPATH", "Loggable"]
@@ -36,6 +37,18 @@ class APIKey(Loggable):
     status: str
     revoked_on: Optional[Date]
     key_id: Optional[str] = field(default=None, repr=False)
+    _env_prefix: Optional[str] = field(default=None, repr=False, compare=False)
+    _include_key_name: bool = field(default=False, repr=False, compare=False)
+
+    @property
+    def env_name(self) -> str:
+        """The default environment variable name when this record was loaded."""
+        return self.get_env_name()
+
+    def get_env_name(self, *, prefix: str | None = None) -> str:
+        if prefix is None:
+            prefix = self._env_prefix or self.service
+        return key_env_name(prefix, self.key_name if self._include_key_name else None)
 
     def __post_init__(self):
         super().__init__(parent_log_device=LOGGER)
@@ -98,9 +111,11 @@ class APIKeyDB(Loggable):
     def _initialize_schema(self) -> None:
         self.cursor.execute(
             "CREATE TABLE IF NOT EXISTS services (name TEXT PRIMARY KEY NOT NULL, "
-            "require_key_id INTEGER NOT NULL DEFAULT 0)"
+            "require_key_id INTEGER NOT NULL DEFAULT 0, env_prefix TEXT)"
         )
         service_columns = {row[1] for row in self.cursor.execute("PRAGMA table_info(services)")}
+        if "env_prefix" not in service_columns:
+            self.cursor.execute("ALTER TABLE services ADD COLUMN env_prefix TEXT")
         if "require_key_id" not in service_columns:
             self.cursor.execute(
                 "ALTER TABLE services ADD COLUMN require_key_id INTEGER NOT NULL DEFAULT 0"
@@ -185,7 +200,11 @@ class APIKeyDB(Loggable):
                     key_id,
                 ),
             )
-        return APIKey(service, key_name, added_date, key, status, revoked_date, key_id)
+            prefix, include_key_name = self._env_config(service)
+        return APIKey(
+            service, key_name, added_date, key, status, revoked_date, key_id,
+            prefix, include_key_name,
+        )
 
     def delete_service(self, service: str) -> None:
         """
@@ -230,27 +249,49 @@ class APIKeyDB(Loggable):
         if only_active:
             query += " AND status='active'"
 
-        records = (
-            self._key_record(row) for row in self.cursor.execute(query, params)
-        )
+        config = self._env_config(service)
+        records = (self._key_record(row, config) for row in self.cursor.execute(query, params))
         return max(records, key=lambda record: record.added, default=None)
 
     @staticmethod
-    def _key_record(row: tuple) -> APIKey:
+    def _key_record(row: tuple, config: tuple[str | None, bool]) -> APIKey:
         service, name, added, key, status, revoked, added_defaulted, revoked_defaulted, key_id = row
         return APIKey(
             service, name, Date(added, was_defaulted=bool(added_defaulted)), key, status,
             Date(revoked, was_defaulted=bool(revoked_defaulted))
             if revoked and revoked.strip() else None,
             key_id,
+            *config,
         )
 
     def list_key_records(self, service: str) -> list[APIKey]:
+        config = self._env_config(service)
         rows = self.cursor.execute(
             f"SELECT {_KEY_COLUMNS}, {_KEY_DATE_FLAGS}, key_id FROM apikeys WHERE service=?",
             (service,),
         )
-        return [self._key_record(row) for row in rows]
+        return [self._key_record(row, config) for row in rows]
+
+    def get_env_prefix(self, service: str) -> str | None:
+        row = self.cursor.execute(
+            "SELECT env_prefix FROM services WHERE name=?", (service,)
+        ).fetchone()
+        return row[0] if row else None
+
+    def set_env_prefix(self, service: str, prefix: str | None) -> None:
+        with self.conn:
+            self.cursor.execute(
+                "INSERT INTO services (name, env_prefix) VALUES (?, ?) "
+                "ON CONFLICT(name) DO UPDATE SET env_prefix=excluded.env_prefix",
+                (service, prefix),
+            )
+
+    def _env_config(self, service: str) -> tuple[str | None, bool]:
+        prefix = self.get_env_prefix(service)
+        count = self.cursor.execute(
+            "SELECT COUNT(*) FROM apikeys WHERE service=? AND status='active'", (service,)
+        ).fetchone()[0]
+        return prefix, count > 1
 
     def delete_key(self, service: str, key_name: Optional[str] = None) -> None:
         """

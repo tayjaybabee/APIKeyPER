@@ -192,6 +192,19 @@ class Arguments(Loggable, ArgumentParser):
         self.__build_get_cmd__()
         self.__build_revoke_cmd__()
         self.__build_list_cmd__()
+        export_env = self.__p_subparsers.add_parser(
+            "export-env", help="Export a stored key to an environment variable."
+        )
+        export_env.add_argument("--service", required=True)
+        selection = export_env.add_mutually_exclusive_group()
+        selection.add_argument("--key-name", help="Select a named active key.")
+        selection.add_argument("--all", action="store_true", help="Export every active key for this service.")
+        naming = export_env.add_mutually_exclusive_group()
+        naming.add_argument("--prefix", help="Replace the service name in PREFIX_API_KEY.")
+        naming.add_argument("--name", help="Set the entire environment variable name.")
+        destination = export_env.add_mutually_exclusive_group()
+        destination.add_argument("--shell", choices=("powershell", "sh"), help="Print a shell assignment.")
+        destination.add_argument("--user", action="store_true", help="Save to the Windows user environment.")
 
     def __init__(self, *args, **kwargs):
         super().__init__(parent_log_device=ROOT_LOGGER.get_child("config"))

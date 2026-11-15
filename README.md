@@ -100,6 +100,47 @@ Registered services stay listed after their last key is deleted.
 
 Use `--key-id` on `apikeyper add` when the provider supplies a Key ID.
 
+`export-env` exports the latest active token for a service. Use `--key-name`
+to pick a specific active key. The default variable for `Home Assistant` is
+`HOME_ASSISTANT_API_KEY`. Use `--prefix MY_APP` for `MY_APP_API_KEY`, or
+`--name HASS_TOKEN` to set the full name.
+
+Set `service.env_prefix = "MY_HOME"` in Python to save a prefix for future
+exports. Assign `None` to restore the service name as the prefix. A loaded
+`APIKey` exposes its resolved default as `record.env_name`. Reload the
+record after changing the prefix or the set of active keys.
+
+When the service has multiple active keys, the default includes the key
+name, for example `MY_HOME_PRIMARY_API_KEY`. Use `export-env --all` with
+`--service` to export all active keys. `--prefix` and `--name` are
+overrides for the current command.
+
+Load the variable into your current PowerShell session and its child processes.
+
+```powershell
+$assignment = apikeyper export-env --service "Home Assistant" --shell powershell
+if ($LASTEXITCODE -eq 0) { Invoke-Expression ($assignment -join [Environment]::NewLine) }
+```
+
+For Bash or another POSIX shell, use the shell's `eval`.
+
+```sh
+assignment=$(apikeyper export-env --service "Home Assistant" --shell sh) &&
+    eval "$assignment"
+```
+
+On Windows, use `--user` to save the variable to your account's environment
+without printing the token. Sign out and back in to load it across applications.
+This replaces any existing user variable with the same name.
+
+```powershell
+apikeyper export-env --service "Home Assistant" --name HASS_TOKEN --user
+```
+
+Shell assignments contain the token in plaintext. Windows user variables also
+store the exported value in plaintext. The regular CLI store currently uses
+SQLite text fields. Fernet encryption is available separately through `CryptDB`.
+
 List all services, or list the key names and statuses for one service:
 
 ```console

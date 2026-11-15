@@ -1,15 +1,94 @@
 from argparse import Namespace
+import os
+from unittest.mock import patch
+
+import pytest
 
 import apikeyper
 from apikeyper import APIKeyPER
 from apikeyper.cli.handlers.add import do_add
 from apikeyper.cli.handlers.core import COMMAND_HANDLERS
+from apikeyper.cli.handlers.export_env import do_export_env
 from apikeyper.cli.handlers.list import do_list
 from apikeyper.cli.handlers.revoke import do_revoke
 from apikeyper.config.arguments import Arguments
 
 
 class TestCLI:
+    def test_export_env_uses_saved_prefix_and_distinct_names_for_active_keys(
+        self, tmp_path, monkeypatch, capsys
+    ):
+        monkeypatch.setattr(apikeyper, "DEFAULT_DB_FILEPATH", tmp_path / "cli.db")
+        api = APIKeyPER()
+        service = api.add_service("Home Assistant", require_key_id=True)
+        service.env_prefix = "my home"
+        primary = service.add_key("fake_primary", key_name="primary", key_id="fake-id")
+        assert primary.env_name == "MY_HOME_API_KEY"
+        service.add_key("fake_backup", key_name="backup", key_id="fake-id-2")
+        service.add_key("fake_old", key_name="old", key_id="fake-id-3", status="revoked")
+        api.db.close()
+
+        reloaded = APIKeyPER().get_service("Home Assistant")
+        assert reloaded.env_prefix == "MY_HOME"
+        assert reloaded.require_key_id
+        assert reloaded.get_key("primary").env_name == "MY_HOME_PRIMARY_API_KEY"
+        args = Arguments().parse_args(
+            ["export-env", "--service", "Home Assistant", "--all", "--shell", "sh"]
+        )
+        assert do_export_env(args) == 0
+        assert set(capsys.readouterr().out.splitlines()) == {
+            "export MY_HOME_PRIMARY_API_KEY=fake_primary",
+            "export MY_HOME_BACKUP_API_KEY=fake_backup",
+        }
+
+        reloaded.add_key("fake_collision", key_name="BACKUP", key_id="fake-id-4")
+        assert do_export_env(args) == 1
+        captured = capsys.readouterr()
+        assert captured.out == ""
+        assert "same environment variable" in captured.err
+
+        reloaded.env_prefix = None
+        assert reloaded.env_prefix == "HOME_ASSISTANT"
+
+    def test_export_env_uses_active_key_and_quotes_for_the_shell(
+        self, tmp_path, monkeypatch, capsys
+    ):
+        monkeypatch.setattr(apikeyper, "DEFAULT_DB_FILEPATH", tmp_path / "cli.db")
+        api = APIKeyPER()
+        api.add_key("Home Assistant", "fake'$(token)", key_name="primary")
+        api.add_key("Home Assistant", "fake_revoked", key_name="old", status="revoked")
+        parser = Arguments()
+        command = ["export-env", "--service", "Home Assistant"]
+
+        assert COMMAND_HANDLERS["export-env"] is do_export_env
+        assert do_export_env(parser.parse_args(command + ["--shell", "powershell"])) == 0
+        assert capsys.readouterr().out == "$env:HOME_ASSISTANT_API_KEY = 'fake''$(token)'\n"
+
+        options = ["--shell", "sh", "--prefix", "my app", "--key-name", "primary"]
+        assert do_export_env(parser.parse_args(command + options)) == 0
+        assert capsys.readouterr().out == """export MY_APP_API_KEY='fake'"'"'$(token)'\n"""
+
+        assert do_export_env(parser.parse_args(command + ["--key-name", "old"])) == 1
+        assert capsys.readouterr().out == ""
+
+        assert do_export_env(parser.parse_args(command + ["--name", "bad;name"])) == 1
+        assert capsys.readouterr().out == ""
+
+    @pytest.mark.skipif(os.name != "nt", reason="Windows user environment only")
+    def test_export_env_user_writes_full_name_without_printing_key(
+        self, tmp_path, monkeypatch, capsys
+    ):
+        monkeypatch.setattr(apikeyper, "DEFAULT_DB_FILEPATH", tmp_path / "cli.db")
+        APIKeyPER().add_key("Home Assistant", "fake_user_token")
+        args = Arguments().parse_args(
+            ["export-env", "--service", "Home Assistant", "--name", "HASS_TOKEN", "--user"]
+        )
+
+        with patch("apikeyper.cli.handlers.export_env._set_windows_user_variable") as save:
+            assert do_export_env(args) == 0
+        save.assert_called_once_with("HASS_TOKEN", "fake_user_token")
+        assert capsys.readouterr().out == "Saved HASS_TOKEN to the Windows user environment.\n"
+
     def test_arguments_build_delete_parser(self):
         parser = Arguments()
 
